@@ -1,0 +1,67 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% load static %}
+
+{% block header_title %}{% if testimonial %}Edit Testimonial{% else %}Add Testimonial{% endif %}{% endblock %}
+
+{% block content %}
+
+<div class="max-w-3xl space-y-6">
+  
+  <a href="{% url 'agency:testimonials_admin_list' %}" class="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-gold-highlight transition-colors">
+    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+    <span>Back to Testimonials</span>
+  </a>
+
+  <form method="POST" class="glass-panel rounded-3xl p-6 sm:p-8 border border-gold-primary/30 shadow-2xl space-y-5">
+    {% csrf_token %}
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Client Full Name <span class="text-gold-primary">*</span></label>
+        <input type="text" name="client_name" value="{{ testimonial.client_name|default:'' }}" required placeholder="e.g. Folashade Balogun"
+               class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary text-slate-100 text-sm">
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Role &amp; Company Name <span class="text-gold-primary">*</span></label>
+        <input type="text" name="client_role_company" value="{{ testimonial.client_role_company|default:'' }}" required placeholder="e.g. Lead Planner, Zapphaire Luxury Events"
+               class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary text-slate-100 text-sm">
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Event Name <span class="text-gold-primary">*</span></label>
+        <input type="text" name="event_name" value="{{ testimonial.event_name|default:'' }}" required placeholder="e.g. The Royal Ebony Wedding Gala"
+               class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary text-slate-100 text-sm">
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Star Rating (1 to 5)</label>
+        <input type="number" name="rating" min="1" max="5" value="{{ testimonial.rating|default:5 }}"
+               class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary text-slate-100 text-sm font-bold text-gold-highlight">
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Testimonial Quote <span class="text-gold-primary">*</span></label>
+      <textarea name="quote" rows="4" required placeholder="What did the client say about The Poised Crew's punctuality and performance?"
+                class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary text-slate-100 text-sm">{{ testimonial.quote|default:'' }}</textarea>
+    </div>
+
+    <div class="flex items-center gap-2 pt-2">
+      <input type="checkbox" name="is_featured" {% if testimonial.is_featured or not testimonial %}checked{% endif %}
+             class="w-4 h-4 rounded text-gold-primary focus:ring-gold-primary bg-midnight border-slate-700">
+      <span class="text-xs text-slate-200 font-semibold">Feature on Home Page</span>
+    </div>
+
+    <div class="pt-4 border-t border-gold-primary/20 flex items-center justify-between">
+      <a href="{% url 'agency:testimonials_admin_list' %}" class="px-5 py-2.5 rounded-xl bg-surface text-slate-400 hover:text-white text-xs">Cancel</a>
+      <button type="submit" class="px-8 py-3 rounded-full bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black font-bold text-xs shadow-xl hover:scale-105 transition-all">
+        Save Testimonial
+      </button>
+    </div>
+
+  </form>
+
+</div>
+
+{% endblock %}

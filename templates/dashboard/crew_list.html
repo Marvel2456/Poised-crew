@@ -1,0 +1,85 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% load static %}
+
+{% block header_title %}Talent Pool &amp; Audition Pipeline{% endblock %}
+
+{% block content %}
+
+<div class="space-y-6">
+  
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <h3 class="font-heading font-bold text-lg text-slate-100">Applicant Roster</h3>
+      <p class="text-xs text-slate-400">Review prospective ushers and protocol officers for upcoming audition screenings.</p>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="flex flex-wrap items-center gap-2">
+      <a href="{% url 'agency:crew_applications_list' %}?status=all" class="px-3 py-1.5 rounded-full text-xs font-semibold {% if current_status == 'all' %}bg-gold-primary text-black{% else %}bg-surface text-slate-300 border border-slate-700{% endif %}">
+        All
+      </a>
+      <a href="{% url 'agency:crew_applications_list' %}?status=pending" class="px-3 py-1.5 rounded-full text-xs font-semibold {% if current_status == 'pending' %}bg-amber-400 text-black{% else %}bg-surface text-amber-300 border border-amber-500/30{% endif %}">
+        Pending Review
+      </a>
+      <a href="{% url 'agency:crew_applications_list' %}?status=shortlisted" class="px-3 py-1.5 rounded-full text-xs font-semibold {% if current_status == 'shortlisted' %}bg-blue-400 text-black{% else %}bg-surface text-blue-300 border border-blue-500/30{% endif %}">
+        Shortlisted
+      </a>
+      <a href="{% url 'agency:crew_applications_list' %}?status=accepted" class="px-3 py-1.5 rounded-full text-xs font-semibold {% if current_status == 'accepted' %}bg-emerald-400 text-black{% else %}bg-surface text-emerald-300 border border-emerald-500/30{% endif %}">
+        Accepted in Academy
+      </a>
+      <a href="{% url 'agency:crew_applications_list' %}?status=active" class="px-3 py-1.5 rounded-full text-xs font-semibold {% if current_status == 'active' %}bg-purple-400 text-black{% else %}bg-surface text-purple-300 border border-purple-500/30{% endif %}">
+        Active Officer
+      </a>
+    </div>
+  </div>
+
+  <div class="glass-panel rounded-2xl p-6 border-gold-primary/20">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs text-slate-300">
+        <thead class="text-[11px] uppercase tracking-wider text-slate-500 border-b border-slate-800">
+          <tr>
+            <th class="py-3 px-3">Candidate</th>
+            <th class="py-3 px-3">City &amp; Height</th>
+            <th class="py-3 px-3">Languages</th>
+            <th class="py-3 px-3">Experience</th>
+            <th class="py-3 px-3">Status</th>
+            <th class="py-3 px-3 text-right">Action</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          {% for app in applications %}
+          <tr class="hover:bg-surface/50 transition-colors">
+            <td class="py-3.5 px-3">
+              <div class="font-semibold text-slate-100">{{ app.full_name }} ({{ app.gender }}, {{ app.age }}y)</div>
+              <div class="text-slate-400 text-[11px]">{{ app.phone_whatsapp }} &bull; {{ app.email }}</div>
+            </td>
+            <td class="py-3.5 px-3">
+              <div class="font-semibold text-gold-warm">{{ app.city }}</div>
+              <div class="text-slate-400 text-[11px]">{{ app.height_cm }} cm</div>
+            </td>
+            <td class="py-3.5 px-3 text-slate-300">{{ app.languages }}</td>
+            <td class="py-3.5 px-3 text-slate-400">{{ app.experience_years }}</td>
+            <td class="py-3.5 px-3">
+              <span class="px-2.5 py-1 rounded-full text-[10px] font-semibold {% if app.status == 'pending' %}bg-amber-500/20 text-amber-300 border border-amber-500/30{% elif app.status == 'shortlisted' %}bg-blue-500/20 text-blue-300 border border-blue-500/30{% elif app.status == 'active' %}bg-purple-500/20 text-purple-300 border border-purple-500/30{% else %}bg-emerald-500/20 text-emerald-300 border border-emerald-500/30{% endif %}">
+                {{ app.get_status_display }}
+              </span>
+            </td>
+            <td class="py-3.5 px-3 text-right">
+              <a href="{% url 'agency:crew_application_detail' app.id %}" class="px-3 py-1.5 rounded-lg bg-surface hover:bg-gold-primary hover:text-black border border-gold-primary/20 text-gold-highlight text-xs font-semibold transition-all">
+                Review Profile
+              </a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="6" class="py-8 text-center text-slate-500">No applicants found in this category.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

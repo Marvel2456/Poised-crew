@@ -1,0 +1,27 @@
+<div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+  {% for item in gallery_items %}
+  <div class="glass-card rounded-2xl overflow-hidden group relative">
+    <div class="h-64 overflow-hidden relative">
+      <img src="{{ item.image_url }}" alt="{{ item.title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+      <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/20 to-transparent opacity-80 group-hover:opacity-95 transition-opacity"></div>
+      
+      <span class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-obsidian/90 text-gold-highlight border border-gold-primary/30">
+        {{ item.get_category_display }}
+      </span>
+
+      <div class="absolute bottom-3 left-3 right-3">
+        <h4 class="font-heading font-bold text-sm text-slate-100 group-hover:text-gold-highlight transition-colors">
+          {{ item.title }}
+        </h4>
+        {% if item.caption %}
+        <p class="text-[11px] text-slate-300 mt-0.5 line-clamp-2">{{ item.caption }}</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="col-span-full py-16 text-center text-slate-400">
+    No media items found in this section.
+  </div>
+  {% endfor %}
+</div>

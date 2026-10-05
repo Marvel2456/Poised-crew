@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Event Portfolio & Case Studies | The Poised Crew{% endblock %}
+
+{% block content %}
+
+<!-- Header Banner -->
+<section class="py-16 bg-leather-texture border-b border-gold-primary/20 text-center relative overflow-hidden">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-midnight border border-gold-primary/30 text-gold-highlight text-xs font-semibold uppercase tracking-widest mb-4">
+      <i data-lucide="award" class="w-3.5 h-3.5 text-gold-primary"></i>
+      Our Track Record
+    </div>
+    <h1 class="font-heading font-extrabold text-3xl sm:text-5xl text-slate-100">
+      Featured Event <span class="text-gold-gradient">Case Studies</span>
+    </h1>
+    <p class="text-slate-300 text-sm sm:text-base mt-4 max-w-2xl mx-auto font-light leading-relaxed">
+      A look at how our protocol leads and ushering teams execute flawless logistics for government summits, high-society weddings, and international conferences.
+    </p>
+  </div>
+</section>
+
+<!-- Filterable Portfolio Section -->
+<section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  
+  <!-- Category Filter Buttons (HTMX) -->
+  <div class="flex flex-wrap items-center justify-center gap-2.5 mb-12">
+    <button hx-get="{% url 'agency:portfolio' %}?category=all"
+            hx-target="#portfolio-grid-container"
+            hx-indicator="#portfolio-loading"
+            class="px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all {% if current_category == 'all' or not current_category %}bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black shadow-lg{% else %}bg-surface text-slate-300 hover:text-gold-highlight border border-gold-primary/20{% endif %}">
+      All Events
+    </button>
+    <button hx-get="{% url 'agency:portfolio' %}?category=corporate"
+            hx-target="#portfolio-grid-container"
+            hx-indicator="#portfolio-loading"
+            class="px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all {% if current_category == 'corporate' %}bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black shadow-lg{% else %}bg-surface text-slate-300 hover:text-gold-highlight border border-gold-primary/20{% endif %}">
+      Corporate
+    </button>
+    <button hx-get="{% url 'agency:portfolio' %}?category=wedding"
+            hx-target="#portfolio-grid-container"
+            hx-indicator="#portfolio-loading"
+            class="px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all {% if current_category == 'wedding' %}bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black shadow-lg{% else %}bg-surface text-slate-300 hover:text-gold-highlight border border-gold-primary/20{% endif %}">
+      Weddings &amp; Galas
+    </button>
+    <button hx-get="{% url 'agency:portfolio' %}?category=conference"
+            hx-target="#portfolio-grid-container"
+            hx-indicator="#portfolio-loading"
+            class="px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all {% if current_category == 'conference' %}bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black shadow-lg{% else %}bg-surface text-slate-300 hover:text-gold-highlight border border-gold-primary/20{% endif %}">
+      Conferences &amp; Summits
+    </button>
+    <button hx-get="{% url 'agency:portfolio' %}?category=government"
+            hx-target="#portfolio-grid-container"
+            hx-indicator="#portfolio-loading"
+            class="px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all {% if current_category == 'government' %}bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black shadow-lg{% else %}bg-surface text-slate-300 hover:text-gold-highlight border border-gold-primary/20{% endif %}">
+      Government &amp; Diplomatic
+    </button>
+    <button hx-get="{% url 'agency:portfolio' %}?category=entertainment"
+            hx-target="#portfolio-grid-container"
+            hx-indicator="#portfolio-loading"
+            class="px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all {% if current_category == 'entertainment' %}bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black shadow-lg{% else %}bg-surface text-slate-300 hover:text-gold-highlight border border-gold-primary/20{% endif %}">
+      Entertainment &amp; Awards
+    </button>
+    <button hx-get="{% url 'agency:portfolio' %}?category=exhibition"
+            hx-target="#portfolio-grid-container"
+            hx-indicator="#portfolio-loading"
+            class="px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all {% if current_category == 'exhibition' %}bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black shadow-lg{% else %}bg-surface text-slate-300 hover:text-gold-highlight border border-gold-primary/20{% endif %}">
+      Exhibitions &amp; Expos
+    </button>
+  </div>
+
+  <!-- Loading indicator -->
+  <div id="portfolio-loading" class="htmx-indicator justify-center py-6">
+    <div class="flex items-center gap-2 text-gold-highlight text-sm">
+      <div class="w-4 h-4 border-2 border-gold-primary border-t-transparent rounded-full animate-spin"></div>
+      <span>Loading case studies...</span>
+    </div>
+  </div>
+
+  <!-- Portfolio Grid Container -->
+  <div id="portfolio-grid-container">
+    {% include 'agency/partials/portfolio_grid.html' %}
+  </div>
+
+</section>
+
+{% endblock %}

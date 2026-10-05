@@ -1,0 +1,56 @@
+<div class="glass-panel rounded-3xl p-8 sm:p-12 text-center max-w-3xl mx-auto border-gold-primary/40 shadow-2xl space-y-6">
+  <div class="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center mx-auto shadow-[0_0_20px_rgba(16,185,129,0.3)]">
+    <i data-lucide="check-circle" class="w-8 h-8"></i>
+  </div>
+
+  <div class="space-y-2">
+    <span class="inline-block px-3 py-1 rounded-full bg-gold-primary/10 text-gold-highlight text-xs font-semibold uppercase tracking-widest border border-gold-primary/30">
+      Inquiry Reference #{{ inquiry.id }}
+    </span>
+    <h2 class="font-heading text-2xl sm:text-4xl font-bold text-slate-100">
+      Quote Request Received
+    </h2>
+    <p class="text-slate-300 text-sm sm:text-base max-w-xl mx-auto font-light leading-relaxed">
+      Thank you, <strong>{{ inquiry.full_name }}</strong>. Our Chief of Protocol has received your request for <strong>{{ inquiry.event_name }}</strong>.
+    </p>
+  </div>
+
+  <!-- Summary Card -->
+  <div class="p-6 rounded-2xl bg-midnight border border-gold-primary/20 text-left space-y-3 text-xs sm:text-sm text-slate-300">
+    <div class="flex justify-between py-1.5 border-b border-slate-800">
+      <span class="text-slate-400">Event Date &amp; Duration:</span>
+      <span class="font-semibold text-slate-200">{{ inquiry.event_date }} ({{ inquiry.event_duration_hours }} Hours)</span>
+    </div>
+    <div class="flex justify-between py-1.5 border-b border-slate-800">
+      <span class="text-slate-400">Venue / Location:</span>
+      <span class="font-semibold text-slate-200">{{ inquiry.venue_name }}, {{ inquiry.event_location }}</span>
+    </div>
+    <div class="flex justify-between py-1.5 border-b border-slate-800">
+      <span class="text-slate-400">Crew Size Requested:</span>
+      <span class="font-bold text-gold-highlight">{{ inquiry.crew_count }} Officers ({{ inquiry.gender_preference }})</span>
+    </div>
+    <div class="flex justify-between py-1.5 border-b border-slate-800">
+      <span class="text-slate-400">Attire Selection:</span>
+      <span class="font-semibold text-slate-200">{{ inquiry.uniform_preference }}</span>
+    </div>
+    <div class="flex justify-between py-1.5">
+      <span class="text-slate-400">Estimated Budget Range:</span>
+      <span class="font-heading font-bold text-gold-gradient text-sm sm:text-base">₦{{ est_min|floatformat:0 }} &ndash; ₦{{ est_max|floatformat:0 }}</span>
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+    <a href="{{ whatsapp_url }}" target="_blank" class="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white font-bold text-sm shadow-xl flex items-center justify-center gap-2 border border-emerald-400/40 hover:scale-105 transition-all">
+      <i data-lucide="message-circle" class="w-5 h-5"></i>
+      <span>Fast-Track On WhatsApp With Lead Director</span>
+    </a>
+    <a href="{% url 'agency:home' %}" class="w-full sm:w-auto px-6 py-4 rounded-full bg-surface border border-gold-primary/30 text-slate-300 hover:text-white font-semibold text-sm transition-all">
+      Return to Home
+    </a>
+  </div>
+
+  <p class="text-xs text-slate-500">
+    A formal written proposal and rate card will also be emailed to <strong>{{ inquiry.email }}</strong> within 2 hours.
+  </p>
+</div>

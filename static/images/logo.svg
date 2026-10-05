@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 320" width="100%" height="100%">
+  <defs>
+    <!-- Gold Metallic Gradients -->
+    <linearGradient id="goldLinear" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF3B0"/>
+      <stop offset="25%" stop-color="#F5DA76"/>
+      <stop offset="50%" stop-color="#D4AF37"/>
+      <stop offset="75%" stop-color="#AA781C"/>
+      <stop offset="100%" stop-color="#E5C76B"/>
+    </linearGradient>
+
+    <linearGradient id="goldLight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFF7D6"/>
+      <stop offset="40%" stop-color="#E4C158"/>
+      <stop offset="100%" stop-color="#9C7228"/>
+    </linearGradient>
+
+    <linearGradient id="goldDark" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#845E1E"/>
+      <stop offset="50%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#704D14"/>
+    </linearGradient>
+
+    <filter id="goldGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Crown Emblem -->
+  <g transform="translate(130, 20) scale(0.8)">
+    <!-- Crown Base Arch -->
+    <path d="M 30,130 Q 150,145 270,130 Q 150,160 30,130 Z" fill="url(#goldLinear)" filter="url(#goldGlow)"/>
+    <path d="M 35,120 Q 150,135 265,120 L 268,126 Q 150,142 32,126 Z" fill="url(#goldLight)"/>
+
+    <!-- Left Flank Tip -->
+    <path d="M 35,120 C 15,75 25,60 30,55 C 32,53 45,75 75,98 Z" fill="url(#goldLinear)"/>
+    <!-- Left Inner Peak -->
+    <path d="M 75,98 C 80,45 88,32 95,28 C 98,27 105,48 125,85 Z" fill="url(#goldLight)"/>
+    
+    <!-- Center Grand Peak -->
+    <path d="M 120,88 C 135,25 145,5 150,0 C 155,5 165,25 180,88 Z" fill="url(#goldLinear)"/>
+
+    <!-- Right Inner Peak -->
+    <path d="M 175,85 C 195,48 202,27 205,28 C 212,32 220,45 225,98 Z" fill="url(#goldLight)"/>
+    <!-- Right Flank Tip -->
+    <path d="M 225,98 C 255,75 268,53 270,55 C 275,60 285,75 265,120 Z" fill="url(#goldLinear)"/>
+
+    <!-- Crown Body Facet Solid Fill -->
+    <path d="M 35,120 L 30,55 L 75,98 L 95,28 L 150,0 L 205,28 L 225,98 L 270,55 L 265,120 Q 150,135 35,120 Z" fill="url(#goldLinear)"/>
+
+    <!-- 3D Shading Facets on Crown -->
+    <path d="M 150,0 L 150,133 Q 150,135 150,133 L 120,88 L 150,0 Z" fill="url(#goldDark)" opacity="0.4"/>
+    <path d="M 150,0 L 150,133 Q 150,135 150,133 L 180,88 L 150,0 Z" fill="url(#goldLight)" opacity="0.3"/>
+    
+    <!-- Spheres on Crown Tips -->
+    <circle cx="30" cy="55" r="5.5" fill="url(#goldLight)"/>
+    <circle cx="95" cy="28" r="6.5" fill="url(#goldLight)"/>
+    <circle cx="150" cy="0" r="8.5" fill="url(#goldLight)" filter="url(#goldGlow)"/>
+    <circle cx="205" cy="28" r="6.5" fill="url(#goldLight)"/>
+    <circle cx="270" cy="55" r="5.5" fill="url(#goldLight)"/>
+  </g>
+
+  <!-- Typography: THE POISED CREW -->
+  <text x="250" y="215" 
+        text-anchor="middle" 
+        font-family="'Cinzel', 'Playfair Display', serif" 
+        font-size="29" 
+        font-weight="700" 
+        letter-spacing="5" 
+        fill="url(#goldLinear)"
+        filter="url(#goldGlow)">
+    THE POISED CREW
+  </text>
+
+  <!-- Divider Line -->
+  <path d="M 90,235 L 210,235 M 290,235 L 410,235" stroke="url(#goldLinear)" stroke-width="1.2" stroke-linecap="round" opacity="0.8"/>
+  <polygon points="250,231 254,235 250,239 246,235" fill="url(#goldLight)"/>
+
+  <!-- Subtitle: Ushering & Protocol -->
+  <text x="250" y="270" 
+        text-anchor="middle" 
+        font-family="'Cormorant Garamond', 'Cinzel', serif" 
+        font-size="20" 
+        font-style="italic"
+        font-weight="500" 
+        letter-spacing="3" 
+        fill="url(#goldLight)">
+    Ushering &amp; Protocol
+  </text>
+</svg>

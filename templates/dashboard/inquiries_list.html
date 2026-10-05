@@ -1,0 +1,107 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% load static %}
+
+{% block header_title %}Client Inquiries &amp; Booking Pipeline{% endblock %}
+
+{% block content %}
+
+<div class="space-y-6">
+  
+  <!-- Filter & Search Toolbar -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    
+    <!-- Status Filter Buttons -->
+    <div class="flex flex-wrap items-center gap-2">
+      <a href="{% url 'agency:inquiries_list' %}?status=all" class="px-3.5 py-1.5 rounded-full text-xs font-semibold {% if current_status == 'all' %}bg-gold-primary text-black{% else %}bg-surface text-slate-300 hover:text-white border border-slate-700{% endif %}">
+        All
+      </a>
+      <a href="{% url 'agency:inquiries_list' %}?status=new" class="px-3.5 py-1.5 rounded-full text-xs font-semibold {% if current_status == 'new' %}bg-amber-400 text-black{% else %}bg-surface text-amber-300 hover:text-white border border-amber-500/30{% endif %}">
+        New Action
+      </a>
+      <a href="{% url 'agency:inquiries_list' %}?status=contacted" class="px-3.5 py-1.5 rounded-full text-xs font-semibold {% if current_status == 'contacted' %}bg-blue-400 text-black{% else %}bg-surface text-blue-300 hover:text-white border border-blue-500/30{% endif %}">
+        Proposal Sent
+      </a>
+      <a href="{% url 'agency:inquiries_list' %}?status=confirmed" class="px-3.5 py-1.5 rounded-full text-xs font-semibold {% if current_status == 'confirmed' %}bg-emerald-400 text-black{% else %}bg-surface text-emerald-300 hover:text-white border border-emerald-500/30{% endif %}">
+        Confirmed &amp; Booked
+      </a>
+      <a href="{% url 'agency:inquiries_list' %}?status=completed" class="px-3.5 py-1.5 rounded-full text-xs font-semibold {% if current_status == 'completed' %}bg-purple-400 text-black{% else %}bg-surface text-purple-300 hover:text-white border border-purple-500/30{% endif %}">
+        Completed
+      </a>
+    </div>
+
+    <!-- Search Box -->
+    <form method="GET" class="relative">
+      <input type="text" name="q" value="{{ search_query }}" placeholder="Search client, event, org..."
+             class="px-4 py-2 pl-9 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary text-xs text-slate-100 placeholder-slate-500 w-full sm:w-64">
+      <i data-lucide="search" class="w-4 h-4 text-slate-500 absolute left-3 top-2.5"></i>
+    </form>
+
+  </div>
+
+  <!-- Inquiries Table Card -->
+  <div class="glass-panel rounded-2xl p-6 border-gold-primary/20">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs text-slate-300">
+        <thead class="text-[11px] uppercase tracking-wider text-slate-500 border-b border-slate-800">
+          <tr>
+            <th class="py-3 px-3">Inquiry #</th>
+            <th class="py-3 px-3">Client Contact</th>
+            <th class="py-3 px-3">Event Name &amp; Type</th>
+            <th class="py-3 px-3">Date &amp; Venue</th>
+            <th class="py-3 px-3">Crew Size</th>
+            <th class="py-3 px-3">Budget Guide</th>
+            <th class="py-3 px-3">Status</th>
+            <th class="py-3 px-3 text-right">Action</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          {% for inq in inquiries %}
+          <tr class="hover:bg-surface/50 transition-colors">
+            <td class="py-3.5 px-3 font-mono text-gold-warm">#{{ inq.id }}</td>
+            <td class="py-3.5 px-3">
+              <div class="font-semibold text-slate-100">{{ inq.full_name }}</div>
+              <div class="text-slate-400 text-[11px]">{{ inq.phone_whatsapp }}</div>
+              {% if inq.organization %}<div class="text-slate-500 text-[10px]">{{ inq.organization }}</div>{% endif %}
+            </td>
+            <td class="py-3.5 px-3">
+              <div class="font-semibold text-slate-200">{{ inq.event_name }}</div>
+              <div class="text-gold-warm text-[11px]">{{ inq.event_type }}</div>
+            </td>
+            <td class="py-3.5 px-3">
+              <div>{{ inq.event_date }} ({{ inq.event_duration_hours }}h)</div>
+              <div class="text-slate-500 text-[11px]">{{ inq.venue_name }}, {{ inq.event_location }}</div>
+            </td>
+            <td class="py-3.5 px-3 font-semibold text-gold-highlight">
+              {{ inq.crew_count }} Officers
+            </td>
+            <td class="py-3.5 px-3 font-mono text-slate-200">
+              ₦{{ inq.estimated_cost_min|floatformat:0 }} &ndash; ₦{{ inq.estimated_cost_max|floatformat:0 }}
+            </td>
+            <td class="py-3.5 px-3">
+              {% include 'dashboard/partials/inquiry_status_badge.html' with inquiry=inq %}
+            </td>
+            <td class="py-3.5 px-3 text-right space-x-1.5">
+              <a href="{% url 'agency:inquiry_detail' inq.id %}" class="px-2.5 py-1 rounded bg-surface hover:bg-gold-primary hover:text-black border border-gold-primary/20 text-gold-highlight text-xs font-semibold transition-all">
+                Manage
+              </a>
+              <button type="button" onclick="openDeleteModal('{% url 'agency:inquiry_delete' inq.id %}', 'Inquiry', '#{{ inq.id }} &bull; {{ inq.event_name|escapejs }} ({{ inq.full_name|escapejs }})')"
+                      class="px-2 py-1 rounded bg-rose-950/60 hover:bg-rose-900 border border-rose-500/30 text-rose-300 text-xs transition-all" title="Delete Inquiry">
+                <i data-lucide="trash-2" class="w-3.5 h-3.5 inline"></i>
+              </button>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="8" class="py-12 text-center text-slate-500">
+              No inquiries found under this filter.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

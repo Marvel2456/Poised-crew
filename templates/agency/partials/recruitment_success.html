@@ -1,0 +1,32 @@
+<div class="glass-panel rounded-3xl p-8 sm:p-12 text-center max-w-2xl mx-auto border-gold-primary/40 shadow-2xl space-y-6">
+  <div class="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center mx-auto shadow-[0_0_20px_rgba(16,185,129,0.3)]">
+    <i data-lucide="award" class="w-8 h-8"></i>
+  </div>
+
+  <div class="space-y-2">
+    <span class="inline-block px-3 py-1 rounded-full bg-gold-primary/10 text-gold-highlight text-xs font-semibold uppercase tracking-widest border border-gold-primary/30">
+      Application ID #ACAD-{{ application.id }}
+    </span>
+    <h2 class="font-heading text-2xl sm:text-3xl font-bold text-slate-100">
+      Audition Application Submitted
+    </h2>
+    <p class="text-slate-300 text-sm sm:text-base max-w-lg mx-auto font-light leading-relaxed">
+      Thank you for applying to join <strong>The Poised Crew</strong>, {{ application.full_name }}.
+    </p>
+  </div>
+
+  <div class="p-6 rounded-2xl bg-midnight border border-slate-800 text-left space-y-2 text-xs text-slate-300">
+    <p><strong>Next Steps in Selection:</strong></p>
+    <ul class="list-disc list-inside space-y-1 text-slate-400">
+      <li>Our Talent &amp; Grooming Board reviews applications weekly.</li>
+      <li>Shortlisted candidates will receive an SMS and WhatsApp invitation for physical audition &amp; screen testing in {{ application.city }}.</li>
+      <li>Successful candidates undergo our 2-week intensive protocol &amp; etiquette bootcamp.</li>
+    </ul>
+  </div>
+
+  <div class="pt-2">
+    <a href="{% url 'agency:home' %}" class="inline-block px-8 py-3.5 rounded-full bg-surface border border-gold-primary/30 text-gold-highlight font-semibold text-sm hover:bg-gold-primary hover:text-black transition-all">
+      Return to Home
+    </a>
+  </div>
+</div>

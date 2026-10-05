@@ -1,0 +1,33 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% load static %}
+
+{% block header_title %}Confirm Deletion{% endblock %}
+
+{% block content %}
+
+<div class="max-w-md mx-auto py-12">
+  <div class="glass-panel rounded-3xl p-8 border border-rose-500/40 text-center space-y-6 shadow-2xl">
+    <div class="w-16 h-16 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-400 flex items-center justify-center mx-auto">
+      <i data-lucide="alert-triangle" class="w-8 h-8"></i>
+    </div>
+
+    <div class="space-y-2">
+      <h3 class="font-heading font-bold text-xl text-slate-100">Are you sure?</h3>
+      <p class="text-xs text-slate-300 leading-relaxed">
+        You are about to delete the {{ item_type }}: <strong class="text-white">"{{ item_name }}"</strong>. This action cannot be undone.
+      </p>
+    </div>
+
+    <form method="POST" class="flex items-center justify-center gap-4 pt-2">
+      {% csrf_token %}
+      <a href="{% url cancel_url %}" class="px-5 py-2.5 rounded-xl bg-surface border border-slate-700 text-slate-300 hover:text-white text-xs">
+        Cancel
+      </a>
+      <button type="submit" class="px-6 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs shadow-lg transition-all">
+        Confirm &amp; Delete
+      </button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us | The Poised Crew — Luxury Ushering & Diplomatic Protocol{% endblock %}
+
+{% block content %}
+
+<!-- Header Banner -->
+<section class="py-16 bg-leather-texture border-b border-gold-primary/20 text-center relative overflow-hidden">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-midnight border border-gold-primary/30 text-gold-highlight text-xs font-semibold uppercase tracking-widest mb-4">
+      <i data-lucide="crown" class="w-3.5 h-3.5 text-gold-primary"></i>
+      Our Story &amp; Ethos
+    </div>
+    <h1 class="font-heading font-extrabold text-3xl sm:text-5xl text-slate-100">
+      Redefining African Event Hospitality With <span class="text-gold-gradient">Unmatched Poise.</span>
+    </h1>
+    <p class="text-slate-300 text-sm sm:text-base mt-4 max-w-2xl mx-auto font-light leading-relaxed">
+      Founded on the conviction that event staffing should be a disciplined craft of diplomatic excellence, executive etiquette, and genuine African warmth.
+    </p>
+  </div>
+</section>
+
+<!-- Company Origin & Mission / Vision -->
+<section class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <div class="space-y-6">
+      <h2 class="font-heading text-2xl sm:text-3xl font-bold text-slate-100">
+        The Poised Story: From Event Staffing to Protocol Authority
+      </h2>
+      <p class="text-slate-300 text-sm leading-relaxed">
+        <strong>The Poised Crew</strong> was established to bridge a critical gap in the luxury and corporate event industry: the need for impeccably trained, highly punctual, and intellectually sharp protocol officers who can effortlessly navigate both cultural traditions and strict diplomatic decorum.
+      </p>
+      <p class="text-slate-400 text-sm leading-relaxed">
+        Whether handling the accreditation of 3,000 international delegates at an African energy summit or orchestrating royal family protocol at a multi-day wedding, our crew brings calmness, precision, and commanding elegance to every engagement.
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+        <div class="p-5 rounded-2xl bg-midnight border border-gold-primary/30">
+          <i data-lucide="compass" class="w-6 h-6 text-gold-primary mb-2"></i>
+          <h4 class="font-heading font-bold text-slate-100 text-base">Our Mission</h4>
+          <p class="text-slate-400 text-xs mt-1.5 leading-relaxed">To provide flawless hospitality and protocol choreography that protects our clients' prestige and creates an unforgettable guest experience.</p>
+        </div>
+        <div class="p-5 rounded-2xl bg-midnight border border-gold-primary/30">
+          <i data-lucide="eye" class="w-6 h-6 text-gold-primary mb-2"></i>
+          <h4 class="font-heading font-bold text-slate-100 text-base">Our Vision</h4>
+          <p class="text-slate-400 text-xs mt-1.5 leading-relaxed">To be Africa's benchmark institution for diplomatic protocol, luxury event ushering, and executive hospitality leadership.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visual Showcase -->
+    <div class="relative rounded-3xl overflow-hidden glass-panel p-2">
+      <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1000&q=80" alt="Diplomatic Assembly" class="w-full h-[440px] object-cover rounded-2xl">
+      <div class="absolute bottom-6 left-6 right-6 p-4 rounded-xl bg-obsidian/90 backdrop-blur-md border border-gold-primary/30 flex items-center justify-between">
+        <div>
+          <h5 class="text-slate-100 font-heading text-sm font-semibold">The Poised Academy</h5>
+          <p class="text-slate-400 text-xs">Over 400 hours of annual protocol &amp; etiquette drill sessions</p>
+        </div>
+        <i data-lucide="award" class="w-8 h-8 text-gold-primary flex-shrink-0"></i>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Core Values -->
+<section class="py-20 bg-midnight/60 border-y border-gold-primary/20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <span class="text-gold-highlight text-xs font-semibold uppercase tracking-widest">Our Guiding Pillars</span>
+      <h2 class="font-heading text-3xl sm:text-4xl font-bold text-slate-100 mt-1">The Core Values of Poise</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for val in values %}
+      <div class="glass-card rounded-2xl p-6 border-gold-primary/20">
+        <div class="w-10 h-10 rounded-xl bg-gold-primary/10 border border-gold-primary/30 flex items-center justify-center text-gold-highlight mb-4">
+          <i data-lucide="{{ val.icon }}" class="w-5 h-5"></i>
+        </div>
+        <h3 class="font-heading font-bold text-lg text-slate-100">{{ val.title }}</h3>
+        <p class="text-slate-400 text-xs sm:text-sm mt-2 leading-relaxed">{{ val.desc }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- The 10-Point "Poised Standard" -->
+<section class="py-24 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="text-center max-w-2xl mx-auto mb-16">
+    <span class="text-gold-highlight text-xs font-semibold uppercase tracking-widest">Operational Excellence</span>
+    <h2 class="font-heading text-3xl sm:text-4xl font-bold text-slate-100 mt-1">The 10-Point Poised Standard</h2>
+    <p class="text-slate-400 text-sm mt-2">Every deployment adheres to these non-negotiable protocols.</p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+    <div class="glass-card p-5 rounded-xl flex items-start gap-3">
+      <span class="font-heading font-bold text-gold-highlight text-lg">01</span>
+      <div>
+        <h4 class="font-semibold text-slate-100">60-Minute Mandatory Pre-Call</h4>
+        <p class="text-slate-400 text-xs mt-1">Full hall reconnaissance, emergency exit checks, and briefing with the lead event planner.</p>
+      </div>
+    </div>
+    <div class="glass-card p-5 rounded-xl flex items-start gap-3">
+      <span class="font-heading font-bold text-gold-highlight text-lg">02</span>
+      <div>
+        <h4 class="font-semibold text-slate-100">Immaculate Uniform Compliance</h4>
+        <p class="text-slate-400 text-xs mt-1">Tailored suits/gowns, gold crest badge on left lapel, manicured grooming with zero hair distractions.</p>
+      </div>
+    </div>
+    <div class="glass-card p-5 rounded-xl flex items-start gap-3">
+      <span class="font-heading font-bold text-gold-highlight text-lg">03</span>
+      <div>
+        <h4 class="font-semibold text-slate-100">Diplomatic Order of Precedence</h4>
+        <p class="text-slate-400 text-xs mt-1">Accurate recognition of royal titles, ambassadorial ranks, military hierarchy, and cabinet ministers.</p>
+      </div>
+    </div>
+    <div class="glass-card p-5 rounded-xl flex items-start gap-3">
+      <span class="font-heading font-bold text-gold-highlight text-lg">04</span>
+      <div>
+        <h4 class="font-semibold text-slate-100">Silent Radio &amp; Hand Signal Systems</h4>
+        <p class="text-slate-400 text-xs mt-1">Discreet ear-piece communication for instant crowd adjustments without vocal commotion.</p>
+      </div>
+    </div>
+    <div class="glass-card p-5 rounded-xl flex items-start gap-3">
+      <span class="font-heading font-bold text-gold-highlight text-lg">05</span>
+      <div>
+        <h4 class="font-semibold text-slate-100">Zero Phone Use on Duty</h4>
+        <p class="text-slate-400 text-xs mt-1">Personal mobile devices are strictly checked in before call time; 100% focused attention on guests.</p>
+      </div>
+    </div>
+    <div class="glass-card p-5 rounded-xl flex items-start gap-3">
+      <span class="font-heading font-bold text-gold-highlight text-lg">06</span>
+      <div>
+        <h4 class="font-semibold text-slate-100">Postural Grace &amp; Calm Demeanor</h4>
+        <p class="text-slate-400 text-xs mt-1">Stand straight, maintain polite eye contact, and de-escalate demanding situations with royal composure.</p>
+      </div>
+    </div>
+    <div class="glass-card p-5 rounded-xl flex items-start gap-3">
+      <span class="font-heading font-bold text-gold-highlight text-lg">07</span>
+      <div>
+        <h4 class="font-semibold text-slate-100">Strict Client Confidentiality</h4>
+        <p class="text-slate-400 text-xs mt-1">Signed non-disclosure agreements protecting private discussions, gift lists, and VIP identities.</p>
+      </div>
+    </div>
+    <div class="glass-card p-5 rounded-xl flex items-start gap-3">
+      <span class="font-heading font-bold text-gold-highlight text-lg">08</span>
+      <div>
+        <h4 class="font-semibold text-slate-100">Currency &amp; Souvenir Security Protocol</h4>
+        <p class="text-slate-400 text-xs mt-1">Supervised collection and locked storage handover for sprays, gifts, and high-value party favors.</p>
+      </div>
+    </div>
+    <div class="glass-card p-5 rounded-xl flex items-start gap-3">
+      <span class="font-heading font-bold text-gold-highlight text-lg">09</span>
+      <div>
+        <h4 class="font-semibold text-slate-100">Emergency &amp; First Aid Preparedness</h4>
+        <p class="text-slate-400 text-xs mt-1">Trained in basic CPR, crowd bottleneck alleviation, and fast medic liaison during emergencies.</p>
+      </div>
+    </div>
+    <div class="glass-card p-5 rounded-xl flex items-start gap-3">
+      <span class="font-heading font-bold text-gold-highlight text-lg">10</span>
+      <div>
+        <h4 class="font-semibold text-slate-100">Post-Event Debrief &amp; Audit</h4>
+        <p class="text-slate-400 text-xs mt-1">Comprehensive exit report provided to the lead event planner within 12 hours of event wrap.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mt-12">
+    <a href="{% url 'agency:book' %}" class="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black font-bold text-sm shadow-xl hover:scale-105 transition-all">
+      <i data-lucide="sparkles" class="w-4 h-4"></i>
+      <span>Partner With Us For Your Next Event</span>
+    </a>
+  </div>
+</section>
+
+{% endblock %}

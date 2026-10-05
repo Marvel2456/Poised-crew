@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --font-heading: 'Cinzel', serif;
+  --font-accent: 'Cormorant Garamond', serif;
+  --font-sans: 'Plus Jakarta Sans', sans-serif;
+
+  --gold-highlight: #F8E7A2;
+  --gold-primary: #D4AF37;
+  --gold-warm: #C59D4E;
+  --gold-dark: #8F6826;
+  --gold-glow: rgba(212, 175, 55, 0.25);
+
+  --bg-obsidian: #0A0A0B;
+  --bg-card: #141416;
+  --bg-card-hover: #1F1F24;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #0A0A0B;
+  color: #F5F5F7;
+  overflow-x: hidden;
+}
+
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+.font-accent {
+  font-family: var(--font-accent);
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+/* Metallic Gold Gradients */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #FFF3B0 0%, #F5DA76 25%, #D4AF37 55%, #AA781C 85%, #E5C76B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gold-subtle {
+  background: linear-gradient(135deg, #F8E7A2 0%, #D4AF37 60%, #C59D4E 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bg-gold-gradient {
+  background: linear-gradient(135deg, #F8E7A2 0%, #D4AF37 50%, #8F6826 100%);
+}
+
+.bg-gold-gradient-hover:hover {
+  background: linear-gradient(135deg, #FFF3B0 0%, #E4C158 50%, #A87622 100%);
+}
+
+/* Gold Glowing Borders & Shadows */
+.border-gold-subtle {
+  border-color: rgba(212, 175, 55, 0.2);
+}
+
+.border-gold-glow {
+  border-color: rgba(212, 175, 55, 0.4);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+}
+
+.glow-gold-hover:hover {
+  border-color: rgba(212, 175, 55, 0.6);
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.25);
+}
+
+/* Luxury Glassmorphism */
+.glass-panel {
+  background: rgba(20, 20, 22, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 55, 0.18);
+}
+
+.glass-card {
+  background: rgba(20, 20, 22, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  background: rgba(31, 31, 36, 0.95);
+  border-color: rgba(212, 175, 55, 0.45);
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.7), 0 0 25px rgba(212, 175, 55, 0.15);
+}
+
+/* Texture Pattern Background */
+.bg-leather-texture {
+  background-color: #0A0A0B;
+  background-image: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 75%),
+                    radial-gradient(circle at 100% 100%, rgba(212, 175, 55, 0.04) 0%, transparent 60%);
+}
+
+/* Shimmer Animation */
+@keyframes goldShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-gold-shimmer {
+  background: linear-gradient(90deg, rgba(212,175,55,0) 0%, rgba(248,231,162,0.4) 50%, rgba(212,175,55,0) 100%);
+  background-size: 200% 100%;
+  animation: goldShimmer 3s infinite;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0A0A0B;
+}
+::-webkit-scrollbar-thumb {
+  background: #2A2A30;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #D4AF37;
+}
+
+/* HTMX Transition Classes */
+.htmx-swapping {
+  opacity: 0;
+  transition: opacity 250ms ease-out;
+}
+
+.htmx-settling {
+  opacity: 1;
+  transition: opacity 250ms ease-in;
+}
+
+.htmx-indicator {
+  display: none;
+}
+.htmx-request .htmx-indicator {
+  display: inline-flex;
+}
+.htmx-request.htmx-indicator {
+  display: inline-flex;
+}

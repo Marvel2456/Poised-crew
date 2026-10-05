@@ -1,0 +1,449 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}The Poised Crew | Premier Ushering & VIP Protocol Agency{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<section class="relative min-h-[90vh] flex items-center justify-center bg-leather-texture pt-12 pb-24 overflow-hidden border-b border-gold-primary/20">
+  <!-- Ambient Gold Light Orbs -->
+  <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold-primary/10 rounded-full blur-[140px] pointer-events-none"></div>
+  <div class="absolute bottom-10 left-10 w-72 h-72 bg-gold-bronze/15 rounded-full blur-[100px] pointer-events-none"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+    
+    <!-- Grand Crown Emblem Presentation -->
+    <div class="inline-flex flex-col items-center justify-center mb-6 group">
+      <div class="w-24 h-24 sm:w-32 sm:h-32 mb-2 relative">
+        <img src="{% static 'images/logo.svg' %}" alt="The Poised Crew Logo" class="w-full h-full object-contain filter drop-shadow-[0_0_25px_rgba(212,175,55,0.45)]">
+      </div>
+      <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-midnight border border-gold-primary/30 text-gold-highlight text-xs font-semibold uppercase tracking-widest shadow-inner">
+        <i data-lucide="crown" class="w-3.5 h-3.5 text-gold-primary"></i>
+        <span>Excellence in Event Protocol &amp; Luxury Hospitality</span>
+      </div>
+    </div>
+
+    <!-- Main Headline -->
+    <h1 class="font-heading font-extrabold text-3xl sm:text-5xl lg:text-6xl tracking-tight text-slate-100 max-w-4xl mx-auto leading-tight sm:leading-tight">
+      Where Regal Poise Meets <span class="text-gold-gradient block sm:inline">Diplomatic Precision.</span>
+    </h1>
+
+    <!-- Subtitle -->
+    <p class="mt-6 text-base sm:text-xl text-slate-300 max-w-2xl mx-auto font-light leading-relaxed">
+      Transforming conferences, high-society weddings, state banquets, and red-carpet galas into seamless, unforgettable experiences across Africa.
+    </p>
+
+    <!-- CTAs -->
+    <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
+      <a href="{% url 'agency:book' %}" 
+         class="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black font-bold text-base shadow-[0_0_25px_rgba(212,175,55,0.35)] hover:scale-105 transition-all flex items-center justify-center gap-2.5">
+        <i data-lucide="calendar-check" class="w-5 h-5"></i>
+        <span>Book Our Team</span>
+      </a>
+      <a href="{% url 'agency:portfolio' %}" 
+         class="w-full sm:w-auto px-8 py-4 rounded-full glass-card text-gold-highlight font-semibold text-base hover:text-white border-gold-primary/30 flex items-center justify-center gap-2">
+        <i data-lucide="sparkles" class="w-4 h-4 text-gold-primary"></i>
+        <span>View Event Portfolio</span>
+      </a>
+    </div>
+
+    <!-- Quick Badges -->
+    <div class="mt-12 flex flex-wrap items-center justify-center gap-6 text-xs text-slate-400">
+      <div class="flex items-center gap-2">
+        <i data-lucide="check-circle" class="w-4 h-4 text-gold-primary"></i>
+        <span>100% Punctuality Guarantee</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <i data-lucide="check-circle" class="w-4 h-4 text-gold-primary"></i>
+        <span>Certified Etiquette &amp; Protocol</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <i data-lucide="check-circle" class="w-4 h-4 text-gold-primary"></i>
+        <span>Bespoke Attire Customization</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- LIVE STATS / MILESTONE BANNER -->
+<section class="relative z-20 -mt-8 max-w-6xl mx-auto px-4 sm:px-6">
+  <div class="glass-panel rounded-2xl p-6 sm:p-8 border border-gold-primary/30 shadow-2xl">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center divide-y sm:divide-y-0 sm:divide-x divide-gold-primary/20">
+      
+      <div class="pt-2 sm:pt-0">
+        <div class="font-heading font-extrabold text-3xl sm:text-4xl text-gold-gradient">{{ stats.events_count }}</div>
+        <div class="text-xs sm:text-sm text-slate-400 mt-1 uppercase tracking-wider">Events Executed</div>
+      </div>
+
+      <div class="pt-2 sm:pt-0">
+        <div class="font-heading font-extrabold text-3xl sm:text-4xl text-gold-gradient">{{ stats.officers_count }}</div>
+        <div class="text-xs sm:text-sm text-slate-400 mt-1 uppercase tracking-wider">Vetted Protocol Officers</div>
+      </div>
+
+      <div class="pt-4 sm:pt-0">
+        <div class="font-heading font-extrabold text-3xl sm:text-4xl text-gold-gradient">{{ stats.punctuality_rate }}</div>
+        <div class="text-xs sm:text-sm text-slate-400 mt-1 uppercase tracking-wider">On-Time Deployment</div>
+      </div>
+
+      <div class="pt-4 sm:pt-0">
+        <div class="font-heading font-extrabold text-3xl sm:text-4xl text-gold-gradient">{{ stats.diplomatic_summits }}</div>
+        <div class="text-xs sm:text-sm text-slate-400 mt-1 uppercase tracking-wider">Diplomatic Summits</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES SHOWCASE SECTION -->
+<section class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="text-center max-w-3xl mx-auto mb-16">
+    <span class="inline-flex items-center gap-1 text-gold-highlight text-xs font-semibold uppercase tracking-widest">
+      <i data-lucide="crown" class="w-3.5 h-3.5 text-gold-primary"></i>
+      Our Core Capabilities
+    </span>
+    <h2 class="font-heading text-3xl sm:text-4xl font-bold text-slate-100 mt-2">
+      Specialized Services Designed for Prestige
+    </h2>
+    <p class="text-slate-400 text-sm sm:text-base mt-3">
+      From high-security diplomatic assemblies to unforgettable luxury weddings, every deployment is guided by rigorous training and impeccable hospitality.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {% for service in all_services %}
+    <div class="glass-card rounded-2xl p-7 flex flex-col justify-between group hover:border-gold-primary/50 relative overflow-hidden">
+      <!-- Card Gradient Flash -->
+      <div class="absolute top-0 right-0 w-32 h-32 bg-gold-primary/5 rounded-full blur-2xl group-hover:bg-gold-primary/10 transition-all"></div>
+      
+      <div>
+        <div class="flex items-center justify-between mb-5">
+          <div class="w-12 h-12 rounded-xl bg-midnight border border-gold-primary/30 flex items-center justify-center text-gold-highlight group-hover:bg-gold-primary group-hover:text-black transition-all">
+            <i data-lucide="{{ service.icon_name }}" class="w-6 h-6"></i>
+          </div>
+          {% if service.badge_text %}
+          <span class="px-3 py-1 rounded-full text-[11px] font-semibold bg-gold-primary/10 text-gold-highlight border border-gold-primary/30">
+            {{ service.badge_text }}
+          </span>
+          {% endif %}
+        </div>
+
+        <h3 class="font-heading font-bold text-xl text-slate-100 group-hover:text-gold-highlight transition-colors">
+          {{ service.title }}
+        </h3>
+        
+        <p class="text-slate-400 text-sm mt-3 line-clamp-3 leading-relaxed">
+          {{ service.short_description }}
+        </p>
+
+        <!-- Highlights list -->
+        <div class="mt-5 pt-4 border-t border-slate-800/80 space-y-2 text-xs text-slate-300">
+          {% for item in service.deliverables_list|slice:":3" %}
+          <div class="flex items-center gap-2">
+            <i data-lucide="check" class="w-3.5 h-3.5 text-gold-primary flex-shrink-0"></i>
+            <span class="truncate">{{ item }}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="mt-6 pt-4 flex items-center justify-between">
+        <a href="{% url 'agency:service_detail' service.slug %}" class="inline-flex items-center gap-1.5 text-xs font-semibold text-gold-highlight hover:text-white transition-colors">
+          <span>Explore Details</span>
+          <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+        </a>
+        <a href="{% url 'agency:book' %}?service={{ service.title|urlencode }}" class="px-3.5 py-1.5 rounded-full bg-surface border border-gold-primary/30 text-xs font-semibold text-slate-200 hover:bg-gold-primary hover:text-black transition-all">
+          Book Service
+        </a>
+      </div>
+
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="text-center mt-12">
+    <a href="{% url 'agency:services' %}" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-full glass-panel text-gold-highlight font-semibold text-sm hover:border-gold-primary transition-all">
+      <span>View All Services &amp; Full Scope Matrix</span>
+      <i data-lucide="chevron-right" class="w-4 h-4"></i>
+    </a>
+  </div>
+</section>
+
+<!-- FEATURED CASE STUDIES / PORTFOLIO -->
+<section class="py-20 bg-midnight/60 border-y border-gold-primary/20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+      <div>
+        <span class="inline-flex items-center gap-1 text-gold-highlight text-xs font-semibold uppercase tracking-widest">
+          <i data-lucide="award" class="w-3.5 h-3.5 text-gold-primary"></i>
+          Proven Track Record
+        </span>
+        <h2 class="font-heading text-3xl sm:text-4xl font-bold text-slate-100 mt-2">
+          Featured Event Deployments
+        </h2>
+        <p class="text-slate-400 text-sm sm:text-base mt-2">
+          Real case studies highlighting crew size, protocol execution, and results.
+        </p>
+      </div>
+      <a href="{% url 'agency:portfolio' %}" class="inline-flex items-center gap-2 text-sm font-semibold text-gold-highlight hover:underline">
+        <span>View Full Portfolio Directory</span>
+        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {% for item in featured_portfolio %}
+      <div class="glass-card rounded-2xl overflow-hidden group flex flex-col justify-between">
+        <div class="relative h-64 overflow-hidden">
+          <img src="{{ item.image_url }}" alt="{{ item.title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/40 to-transparent"></div>
+          
+          <div class="absolute top-4 left-4 flex gap-2">
+            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-obsidian/80 backdrop-blur-md text-gold-highlight border border-gold-primary/30">
+              {{ item.get_category_display }}
+            </span>
+          </div>
+
+          <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-slate-200">
+            <span class="flex items-center gap-1 bg-obsidian/70 px-2.5 py-1 rounded-md backdrop-blur-sm">
+              <i data-lucide="map-pin" class="w-3.5 h-3.5 text-gold-primary"></i>
+              {{ item.city }}
+            </span>
+            <span class="flex items-center gap-1 bg-gold-primary/20 text-gold-highlight px-2.5 py-1 rounded-md border border-gold-primary/30 font-semibold">
+              <i data-lucide="users" class="w-3.5 h-3.5"></i>
+              {{ item.crew_deployed }} Officers
+            </span>
+          </div>
+        </div>
+
+        <div class="p-6">
+          <h3 class="font-heading font-bold text-xl text-slate-100 group-hover:text-gold-highlight transition-colors">
+            {{ item.title }}
+          </h3>
+          <p class="text-xs text-gold-warm font-medium mt-1">
+            Client: {{ item.client_name }} {% if item.planner_name %}&bull; Planner: {{ item.planner_name }}{% endif %}
+          </p>
+          <p class="text-slate-400 text-sm mt-3 line-clamp-2 leading-relaxed">
+            {{ item.summary }}
+          </p>
+
+          <!-- Result Tag -->
+          <div class="mt-4 p-3 rounded-xl bg-surface border border-gold-primary/20 flex items-start gap-2.5 text-xs text-slate-200">
+            <i data-lucide="trending-up" class="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5"></i>
+            <span><strong>Outcome:</strong> {{ item.highlight_result }}</span>
+          </div>
+
+          <div class="mt-5 flex items-center justify-between pt-3 border-t border-slate-800">
+            <span class="text-xs text-slate-400">{{ item.services_provided|truncatechars:45 }}</span>
+            <a href="{% url 'agency:portfolio_detail' item.slug %}" class="inline-flex items-center gap-1 text-xs font-semibold text-gold-highlight hover:underline">
+              <span>Read Case Study</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US / THE POISED STANDARD -->
+<section class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+    
+    <div class="lg:col-span-5 space-y-6">
+      <span class="inline-flex items-center gap-1 text-gold-highlight text-xs font-semibold uppercase tracking-widest">
+        <i data-lucide="shield-check" class="w-3.5 h-3.5 text-gold-primary"></i>
+        The Poised Standard
+      </span>
+      <h2 class="font-heading text-3xl sm:text-4xl font-bold text-slate-100 leading-tight">
+        Why Event Planners &amp; Executives Choose The Poised Crew
+      </h2>
+      <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
+        We do not supply random temporary staff. Every usher and protocol officer is an accredited graduate of our Academy, trained in high-stakes protocol, diplomacy, and 5-star hospitality.
+      </p>
+
+      <div class="space-y-4 pt-2">
+        <div class="flex items-start gap-3.5">
+          <div class="w-8 h-8 rounded-lg bg-gold-primary/10 border border-gold-primary/30 flex items-center justify-center text-gold-primary flex-shrink-0">
+            <i data-lucide="clock" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h4 class="text-slate-100 font-semibold text-sm">Mandatory 60-Min Pre-Call Arrival</h4>
+            <p class="text-slate-400 text-xs mt-0.5">Full venue sweep, seating walk-through, and floor alignment with the head planner before doors open.</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3.5">
+          <div class="w-8 h-8 rounded-lg bg-gold-primary/10 border border-gold-primary/30 flex items-center justify-center text-gold-primary flex-shrink-0">
+            <i data-lucide="user-check" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h4 class="text-slate-100 font-semibold text-sm">Dedicated On-Site Team Lead</h4>
+            <p class="text-slate-400 text-xs mt-0.5">Every booking includes an active lead supervisor equipped with radio earpieces to manage the floor.</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3.5">
+          <div class="w-8 h-8 rounded-lg bg-gold-primary/10 border border-gold-primary/30 flex items-center justify-center text-gold-primary flex-shrink-0">
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h4 class="text-slate-100 font-semibold text-sm">Immaculate Grooming Benchmarks</h4>
+            <p class="text-slate-400 text-xs mt-0.5">Standardized hair, grooming, posture, and bespoke tailored uniforms that elevate your visual aesthetics.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-4">
+        <a href="{% url 'agency:about' %}" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-surface border border-gold-primary/40 text-gold-highlight text-sm font-semibold hover:bg-gold-primary hover:text-black transition-all">
+          <span>Read Our Full Academy Standards</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="space-y-4">
+        <div class="glass-card rounded-2xl p-6 border-gold-primary/20">
+          <i data-lucide="crown" class="w-8 h-8 text-gold-primary mb-3"></i>
+          <h4 class="font-heading font-bold text-slate-100 text-lg">State &amp; Royal Etiquette</h4>
+          <p class="text-slate-400 text-xs mt-2 leading-relaxed">Trained in national orders of precedence, royal father salutations, and diplomatic escort formations.</p>
+        </div>
+        <div class="glass-card rounded-2xl p-6 border-gold-primary/20">
+          <i data-lucide="languages" class="w-8 h-8 text-gold-primary mb-3"></i>
+          <h4 class="font-heading font-bold text-slate-100 text-lg">Multilingual Hosts</h4>
+          <p class="text-slate-400 text-xs mt-2 leading-relaxed">Officers fluent in English, French, and major Nigerian languages to welcome multinational dignitaries.</p>
+        </div>
+      </div>
+
+      <div class="space-y-4 sm:pt-8">
+        <div class="glass-card rounded-2xl p-6 border-gold-primary/20">
+          <i data-lucide="lock" class="w-8 h-8 text-gold-primary mb-3"></i>
+          <h4 class="font-heading font-bold text-slate-100 text-lg">Confidentiality &amp; NDA</h4>
+          <p class="text-slate-400 text-xs mt-2 leading-relaxed">Complete privacy protection for ultra-high-net-worth families, corporate boards, and closed assemblies.</p>
+        </div>
+        <div class="glass-card rounded-2xl p-6 border-gold-primary/20">
+          <i data-lucide="shield-alert" class="w-8 h-8 text-gold-primary mb-3"></i>
+          <h4 class="font-heading font-bold text-slate-100 text-lg">Crisis &amp; Crowd Control</h4>
+          <p class="text-slate-400 text-xs mt-2 leading-relaxed">Direct coordination with security teams, emergency exit management, and medical assistance protocols.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- UNIFORM LOOKBOOK PREVIEW -->
+<section class="py-20 bg-midnight/40 border-y border-gold-primary/20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <span class="text-gold-highlight text-xs font-semibold uppercase tracking-widest">Sartorial Distinction</span>
+      <h2 class="font-heading text-3xl sm:text-4xl font-bold text-slate-100 mt-1">
+        Bespoke Uniform Styling
+      </h2>
+      <p class="text-slate-400 text-sm mt-2">
+        Choose from our signature wardrobe collections tailored to match your event theme.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {% for u in uniform_styles %}
+      <div class="glass-card rounded-2xl overflow-hidden group">
+        <div class="h-60 overflow-hidden relative">
+          <img src="{{ u.image_url }}" alt="{{ u.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-midnight via-transparent to-transparent"></div>
+          <span class="absolute bottom-3 left-3 px-2.5 py-1 rounded bg-obsidian/80 backdrop-blur-md text-[11px] font-semibold text-gold-highlight border border-gold-primary/30">
+            {{ u.tag }}
+          </span>
+        </div>
+        <div class="p-5">
+          <h4 class="font-heading font-bold text-base text-slate-100 group-hover:text-gold-highlight transition-colors">{{ u.name }}</h4>
+          <p class="text-slate-400 text-xs mt-2 line-clamp-2">{{ u.description }}</p>
+          <div class="mt-3 pt-3 border-t border-slate-800 text-[11px] text-gold-warm font-medium flex items-center justify-between">
+            <span>{{ u.gender }}</span>
+            <span class="text-slate-400">{{ u.color_palette }}</span>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="text-center mt-10">
+      <a href="{% url 'agency:gallery' %}" class="inline-flex items-center gap-2 text-sm font-semibold text-gold-highlight hover:underline">
+        <span>Explore Full Media Gallery &amp; Uniform Catalog</span>
+        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS SECTION -->
+<section class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="text-center max-w-2xl mx-auto mb-16">
+    <span class="text-gold-highlight text-xs font-semibold uppercase tracking-widest">Endorsements of Excellence</span>
+    <h2 class="font-heading text-3xl sm:text-4xl font-bold text-slate-100 mt-1">
+      What Planners &amp; Leaders Say
+    </h2>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    {% for t in testimonials %}
+    <div class="glass-card rounded-2xl p-7 flex flex-col justify-between border-gold-primary/20 relative">
+      <div class="space-y-4">
+        <div class="flex items-center gap-1 text-gold-primary">
+          {% for i in "12345" %}
+          <i data-lucide="star" class="w-4 h-4 fill-gold-primary text-gold-primary"></i>
+          {% endfor %}
+        </div>
+        <p class="text-slate-300 text-sm leading-relaxed italic">
+          "{{ t.quote }}"
+        </p>
+      </div>
+
+      <div class="mt-6 pt-5 border-t border-slate-800/80 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-gold-primary/20 border border-gold-primary/40 flex items-center justify-center font-bold text-gold-highlight text-sm">
+          {{ t.client_name|slice:":1" }}
+        </div>
+        <div>
+          <h4 class="font-semibold text-sm text-slate-100">{{ t.client_name }}</h4>
+          <p class="text-xs text-gold-warm">{{ t.client_role_company }}</p>
+          <p class="text-[11px] text-slate-500 mt-0.5">Event: {{ t.event_name }}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- CALL TO ACTION BANNER -->
+<section class="py-20 relative bg-leather-texture border-t border-gold-primary/20 overflow-hidden">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+    <div class="w-16 h-16 mx-auto mb-4">
+      <img src="{% static 'images/crown.svg' %}" alt="Crown" class="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(212,175,55,0.4)]">
+    </div>
+    <h2 class="font-heading text-3xl sm:text-5xl font-extrabold text-slate-100">
+      Ready to Bring <span class="text-gold-gradient">The Poised Crew</span> to Your Next Event?
+    </h2>
+    <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto mt-4 leading-relaxed font-light">
+      Receive a detailed proposal and transparent staffing breakdown within 2 hours.
+    </p>
+
+    <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
+      <a href="{% url 'agency:book' %}" 
+         class="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black font-bold text-base shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-2">
+        <i data-lucide="calculator" class="w-5 h-5"></i>
+        <span>Request a Structured Quote</span>
+      </a>
+      <a href="https://wa.me/2348000000000" target="_blank"
+         class="w-full sm:w-auto px-7 py-4 rounded-full bg-emerald-950/60 border border-emerald-500/40 text-emerald-400 font-semibold text-base hover:bg-emerald-900/60 transition-all flex items-center justify-center gap-2">
+        <i data-lucide="message-circle" class="w-5 h-5"></i>
+        <span>WhatsApp Concierge</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

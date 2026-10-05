@@ -1,0 +1,5 @@
+<span id="inquiry-status-badge-{{ inquiry.id }}" 
+      class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold {% if inquiry.status == 'new' %}bg-amber-500/20 text-amber-300 border border-amber-500/30{% elif inquiry.status == 'confirmed' %}bg-emerald-500/20 text-emerald-300 border border-emerald-500/30{% elif inquiry.status == 'contacted' %}bg-blue-500/20 text-blue-300 border border-blue-500/30{% elif inquiry.status == 'completed' %}bg-purple-500/20 text-purple-300 border border-purple-500/30{% else %}bg-slate-700 text-slate-300{% endif %}">
+  <span class="w-1.5 h-1.5 rounded-full {% if inquiry.status == 'new' %}bg-amber-400{% elif inquiry.status == 'confirmed' %}bg-emerald-400{% elif inquiry.status == 'contacted' %}bg-blue-400{% else %}bg-slate-400{% endif %}"></span>
+  <span>{{ inquiry.get_status_display }}</span>
+</span>

@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Media Gallery & Uniform Lookbook | The Poised Crew{% endblock %}
+
+{% block content %}
+
+<!-- Header Banner -->
+<section class="py-16 bg-leather-texture border-b border-gold-primary/20 text-center relative overflow-hidden">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-midnight border border-gold-primary/30 text-gold-highlight text-xs font-semibold uppercase tracking-widest mb-4">
+      <i data-lucide="image" class="w-3.5 h-3.5 text-gold-primary"></i>
+      Visual Excellence
+    </div>
+    <h1 class="font-heading font-extrabold text-3xl sm:text-5xl text-slate-100">
+      Media Gallery &amp; <span class="text-gold-gradient">Uniform Lookbook</span>
+    </h1>
+    <p class="text-slate-300 text-sm sm:text-base mt-4 max-w-2xl mx-auto font-light leading-relaxed">
+      A visual journey through our high-profile deployments, behind-the-scenes briefings, and bespoke attire collections.
+    </p>
+  </div>
+</section>
+
+<!-- Section 1: Uniform Styling Catalog -->
+<section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="text-center max-w-2xl mx-auto mb-12">
+    <span class="text-gold-highlight text-xs font-semibold uppercase tracking-widest">Sartorial Precision</span>
+    <h2 class="font-heading text-2xl sm:text-3xl font-bold text-slate-100 mt-1">Official Poised Uniform Catalog</h2>
+    <p class="text-slate-400 text-xs sm:text-sm mt-2">Select the signature attire that aligns seamlessly with your event theme and prestige.</p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    {% for u in uniform_styles %}
+    <div class="glass-card rounded-2xl overflow-hidden group">
+      <div class="h-64 overflow-hidden relative">
+        <img src="{{ u.image_url }}" alt="{{ u.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        <div class="absolute inset-0 bg-gradient-to-t from-midnight via-transparent to-transparent"></div>
+        <span class="absolute bottom-3 left-3 px-2.5 py-1 rounded bg-obsidian/85 backdrop-blur-md text-[11px] font-semibold text-gold-highlight border border-gold-primary/30">
+          {{ u.tag }}
+        </span>
+      </div>
+      <div class="p-5">
+        <h4 class="font-heading font-bold text-base text-slate-100 group-hover:text-gold-highlight transition-colors">{{ u.name }}</h4>
+        <p class="text-slate-400 text-xs mt-2 line-clamp-3 leading-relaxed">{{ u.description }}</p>
+        <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-gold-warm flex flex-col gap-1">
+          <div class="flex items-center justify-between">
+            <span class="text-slate-400">Cut / Fit:</span>
+            <span class="font-medium text-slate-200">{{ u.gender }}</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-slate-400">Palette:</span>
+            <span class="font-medium text-slate-200">{{ u.color_palette }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Section 2: Filterable Media Gallery (HTMX) -->
+<section class="py-16 bg-midnight/50 border-t border-gold-primary/20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="text-center max-w-2xl mx-auto mb-10">
+      <span class="text-gold-highlight text-xs font-semibold uppercase tracking-widest">In Action</span>
+      <h2 class="font-heading text-2xl sm:text-3xl font-bold text-slate-100 mt-1">Live Event &amp; Behind-The-Scenes Media</h2>
+    </div>
+
+    <!-- Gallery Category Filter Tabs -->
+    <div class="flex flex-wrap items-center justify-center gap-2 mb-10">
+      <button hx-get="{% url 'agency:gallery' %}?category=all"
+              hx-target="#gallery-grid-container"
+              hx-indicator="#gallery-loading"
+              class="px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all {% if current_category == 'all' or not current_category %}bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black shadow-md{% else %}bg-surface text-slate-300 hover:text-gold-highlight border border-gold-primary/20{% endif %}">
+        All Media
+      </button>
+      <button hx-get="{% url 'agency:gallery' %}?category=events"
+              hx-target="#gallery-grid-container"
+              hx-indicator="#gallery-loading"
+              class="px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all {% if current_category == 'events' %}bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black shadow-md{% else %}bg-surface text-slate-300 hover:text-gold-highlight border border-gold-primary/20{% endif %}">
+        Event Highlights
+      </button>
+      <button hx-get="{% url 'agency:gallery' %}?category=protocol"
+              hx-target="#gallery-grid-container"
+              hx-indicator="#gallery-loading"
+              class="px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all {% if current_category == 'protocol' %}bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black shadow-md{% else %}bg-surface text-slate-300 hover:text-gold-highlight border border-gold-primary/20{% endif %}">
+        VIP Protocol
+      </button>
+      <button hx-get="{% url 'agency:gallery' %}?category=conferences"
+              hx-target="#gallery-grid-container"
+              hx-indicator="#gallery-loading"
+              class="px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all {% if current_category == 'conferences' %}bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black shadow-md{% else %}bg-surface text-slate-300 hover:text-gold-highlight border border-gold-primary/20{% endif %}">
+        Conferences
+      </button>
+      <button hx-get="{% url 'agency:gallery' %}?category=weddings"
+              hx-target="#gallery-grid-container"
+              hx-indicator="#gallery-loading"
+              class="px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all {% if current_category == 'weddings' %}bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black shadow-md{% else %}bg-surface text-slate-300 hover:text-gold-highlight border border-gold-primary/20{% endif %}">
+        Weddings
+      </button>
+      <button hx-get="{% url 'agency:gallery' %}?category=bts"
+              hx-target="#gallery-grid-container"
+              hx-indicator="#gallery-loading"
+              class="px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all {% if current_category == 'bts' %}bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black shadow-md{% else %}bg-surface text-slate-300 hover:text-gold-highlight border border-gold-primary/20{% endif %}">
+        Behind The Scenes
+      </button>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div id="gallery-loading" class="htmx-indicator justify-center py-6">
+      <div class="flex items-center gap-2 text-gold-highlight text-sm">
+        <div class="w-4 h-4 border-2 border-gold-primary border-t-transparent rounded-full animate-spin"></div>
+        <span>Loading gallery...</span>
+      </div>
+    </div>
+
+    <!-- Gallery Grid Container -->
+    <div id="gallery-grid-container">
+      {% include 'agency/partials/gallery_grid.html' %}
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

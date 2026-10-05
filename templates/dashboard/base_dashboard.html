@@ -1,0 +1,261 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-obsidian">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Dashboard | The Poised Crew Executive CRM{% endblock %}</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            gold: {
+              highlight: '#F8E7A2',
+              primary: '#D4AF37',
+              warm: '#C59D4E',
+              bronze: '#8F6826',
+              dark: '#5A3E0F',
+            },
+            obsidian: '#0A0A0B',
+            midnight: '#141416',
+            surface: '#1F1F24',
+            surfaceHover: '#2A2A32',
+          },
+          fontFamily: {
+            heading: ['Cinzel', 'Playfair Display', 'serif'],
+            sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <!-- HTMX & Lucide Icons -->
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+</head>
+<body class="h-full bg-obsidian text-slate-100 font-sans flex flex-col selection:bg-gold-primary selection:text-black"
+      hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+
+  <div class="flex h-full overflow-hidden">
+    
+    <!-- DESKTOP SIDEBAR -->
+    <aside class="hidden lg:flex flex-col w-64 bg-midnight border-r border-gold-primary/20 flex-shrink-0">
+      <!-- Brand Logo Header -->
+      <div class="h-20 flex items-center gap-3 px-6 border-b border-gold-primary/20">
+        <img src="{% static 'images/crown.svg' %}" alt="Crown" class="w-8 h-8 object-contain filter drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]">
+        <div>
+          <div class="font-heading font-bold text-sm text-gold-gradient tracking-wider">THE POISED CREW</div>
+          <div class="text-[10px] text-gold-warm uppercase tracking-widest font-semibold">Executive CRM</div>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
+        <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider px-3 mb-2">Management</div>
+        
+        <a href="{% url 'agency:dashboard_home' %}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all {% if request.resolver_match.url_name == 'dashboard_home' %}bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black shadow-md{% else %}text-slate-300 hover:text-white hover:bg-surface{% endif %}">
+          <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+          <span>Dashboard Overview</span>
+        </a>
+
+        <a href="{% url 'agency:inquiries_list' %}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all {% if 'inquiries' in request.path %}bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black shadow-md{% else %}text-slate-300 hover:text-white hover:bg-surface{% endif %}">
+          <i data-lucide="calendar-check" class="w-4 h-4"></i>
+          <span>Inquiries &amp; Bookings</span>
+        </a>
+
+        <a href="{% url 'agency:crew_applications_list' %}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all {% if 'crew-applications' in request.path %}bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black shadow-md{% else %}text-slate-300 hover:text-white hover:bg-surface{% endif %}">
+          <i data-lucide="user-check" class="w-4 h-4"></i>
+          <span>Crew Auditions</span>
+        </a>
+
+        <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider px-3 pt-5 mb-2">Website CMS Content</div>
+
+        <a href="{% url 'agency:services_admin_list' %}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all {% if 'services' in request.path and 'dashboard' in request.path %}bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black shadow-md{% else %}text-slate-300 hover:text-white hover:bg-surface{% endif %}">
+          <i data-lucide="crown" class="w-4 h-4"></i>
+          <span>Services Manager</span>
+        </a>
+
+        <a href="{% url 'agency:portfolio_admin_list' %}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all {% if 'portfolio' in request.path and 'dashboard' in request.path %}bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black shadow-md{% else %}text-slate-300 hover:text-white hover:bg-surface{% endif %}">
+          <i data-lucide="award" class="w-4 h-4"></i>
+          <span>Event Portfolio</span>
+        </a>
+
+        <a href="{% url 'agency:gallery_admin_list' %}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all {% if 'gallery' in request.path and 'dashboard' in request.path %}bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black shadow-md{% else %}text-slate-300 hover:text-white hover:bg-surface{% endif %}">
+          <i data-lucide="image" class="w-4 h-4"></i>
+          <span>Lookbook &amp; Uniforms</span>
+        </a>
+
+        <a href="{% url 'agency:testimonials_admin_list' %}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all {% if 'testimonials' in request.path and 'dashboard' in request.path %}bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black shadow-md{% else %}text-slate-300 hover:text-white hover:bg-surface{% endif %}">
+          <i data-lucide="message-square" class="w-4 h-4"></i>
+          <span>Client Testimonials</span>
+        </a>
+      </nav>
+
+      <!-- Bottom User Profile & Live Link -->
+      <div class="p-4 border-t border-gold-primary/20 space-y-2">
+        <a href="{% url 'agency:home' %}" target="_blank" class="flex items-center justify-between px-3 py-2 rounded-lg bg-surface hover:bg-surfaceHover text-xs text-gold-highlight transition-all border border-gold-primary/20">
+          <span class="flex items-center gap-2">
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+            <span>View Public Website</span>
+          </span>
+          <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+        </a>
+        <div class="flex items-center justify-between px-3 py-2 text-xs text-slate-400">
+          <span class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span class="font-medium text-slate-200">{{ request.user.username }}</span>
+          </span>
+          <a href="{% url 'agency:dashboard_logout' %}" class="text-rose-400 hover:underline">Logout</a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+      
+      <!-- Top Bar -->
+      <header class="h-20 bg-midnight border-b border-gold-primary/20 flex items-center justify-between px-4 sm:px-8 flex-shrink-0">
+        <div class="flex items-center gap-4">
+          <!-- Mobile Sidebar Toggle -->
+          <button type="button" onclick="toggleDashboardMobileNav()" class="p-2 rounded-lg lg:hidden text-gold-primary hover:bg-surface">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+          </button>
+          <div>
+            <h2 class="font-heading font-bold text-lg text-slate-100">{% block header_title %}Operations Control Center{% endblock %}</h2>
+            <p class="text-xs text-slate-400">The Poised Crew &bull; Internal Platform</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <a href="{% url 'agency:service_create' %}" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-surface border border-gold-primary/30 text-gold-highlight text-xs font-semibold hover:bg-gold-primary hover:text-black transition-all">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+            <span>Add Service</span>
+          </a>
+          <a href="{% url 'agency:portfolio_create' %}" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-surface border border-gold-primary/30 text-gold-highlight text-xs font-semibold hover:bg-gold-primary hover:text-black transition-all">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+            <span>Add Case Study</span>
+          </a>
+          <div class="w-8 h-8 rounded-full bg-gold-primary text-black font-bold flex items-center justify-center text-xs">
+            {{ request.user.username|slice:":1"|upper }}
+          </div>
+        </div>
+      </header>
+
+      <!-- Alert Messages -->
+      {% if messages %}
+      <div class="px-4 sm:px-8 pt-4">
+        {% for message in messages %}
+        <div class="p-3.5 rounded-xl text-xs font-medium flex items-center justify-between {% if message.tags == 'error' %}bg-rose-950/70 border border-rose-500/40 text-rose-200{% else %}bg-emerald-950/70 border border-emerald-500/40 text-emerald-200{% endif %}">
+          <span>{{ message }}</span>
+          <button type="button" onclick="this.parentElement.remove()" class="text-slate-400 hover:text-white">&times;</button>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <!-- Scrollable Main View Container -->
+      <main class="flex-1 overflow-y-auto p-4 sm:p-8 space-y-8">
+        {% block content %}{% endblock %}
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- Mobile Drawer -->
+  <div id="dashboard-mobile-nav" class="hidden lg:hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex">
+    <div class="w-72 bg-midnight h-full border-r border-gold-primary/30 p-6 flex flex-col justify-between">
+      <div class="space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+          <div class="font-heading font-bold text-gold-gradient">THE POISED CREW</div>
+          <button type="button" onclick="toggleDashboardMobileNav()" class="p-1 text-slate-400 hover:text-white">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+        <nav class="space-y-2 text-sm">
+          <a href="{% url 'agency:dashboard_home' %}" class="block py-2 text-slate-200 hover:text-gold-highlight">Dashboard Overview</a>
+          <a href="{% url 'agency:inquiries_list' %}" class="block py-2 text-slate-200 hover:text-gold-highlight">Inquiries &amp; Bookings</a>
+          <a href="{% url 'agency:crew_applications_list' %}" class="block py-2 text-slate-200 hover:text-gold-highlight">Crew Auditions</a>
+          <a href="{% url 'agency:services_admin_list' %}" class="block py-2 text-slate-200 hover:text-gold-highlight">Services Manager</a>
+          <a href="{% url 'agency:portfolio_admin_list' %}" class="block py-2 text-slate-200 hover:text-gold-highlight">Event Portfolio</a>
+          <a href="{% url 'agency:gallery_admin_list' %}" class="block py-2 text-slate-200 hover:text-gold-highlight">Lookbook &amp; Uniforms</a>
+          <a href="{% url 'agency:testimonials_admin_list' %}" class="block py-2 text-slate-200 hover:text-gold-highlight">Client Testimonials</a>
+        </nav>
+      </div>
+      <div class="pt-4 border-t border-slate-800">
+        <a href="{% url 'agency:dashboard_logout' %}" class="text-xs text-rose-400">Log Out</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- GLOBAL DELETE CONFIRMATION MODAL -->
+  <div id="delete-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md transition-opacity">
+    <div class="w-full max-w-md glass-panel rounded-3xl p-6 sm:p-8 border border-rose-500/40 text-center space-y-6 shadow-2xl relative">
+      <button type="button" onclick="closeDeleteModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-1">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      
+      <div class="w-16 h-16 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-400 flex items-center justify-center mx-auto">
+        <i data-lucide="alert-triangle" class="w-8 h-8"></i>
+      </div>
+
+      <div class="space-y-2">
+        <h3 class="font-heading font-bold text-xl text-slate-100">Confirm Deletion</h3>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          Are you sure you want to delete the <span id="delete-item-type" class="font-semibold text-slate-200">item</span>:
+          <strong id="delete-item-name" class="text-gold-highlight block mt-1 text-sm">""</strong>
+          This action is permanent and cannot be undone.
+        </p>
+      </div>
+
+      <form id="delete-modal-form" method="POST" action="" class="flex items-center justify-center gap-4 pt-2">
+        {% csrf_token %}
+        <button type="button" onclick="closeDeleteModal()" class="px-5 py-2.5 rounded-xl bg-surface border border-slate-700 text-slate-300 hover:text-white text-xs font-semibold transition-all">
+          Cancel
+        </button>
+        <button type="submit" class="px-6 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs shadow-lg transition-all flex items-center gap-1.5">
+          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+          <span>Yes, Delete</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+    document.body.addEventListener('htmx:afterSwap', function() {
+      lucide.createIcons();
+    });
+
+    function toggleDashboardMobileNav() {
+      const el = document.getElementById('dashboard-mobile-nav');
+      el.classList.toggle('hidden');
+    }
+
+    function openDeleteModal(deleteUrl, itemType, itemName) {
+      const modal = document.getElementById('delete-modal');
+      const form = document.getElementById('delete-modal-form');
+      const typeSpan = document.getElementById('delete-item-type');
+      const nameSpan = document.getElementById('delete-item-name');
+
+      form.action = deleteUrl;
+      typeSpan.textContent = itemType || 'item';
+      nameSpan.textContent = itemName ? `"${itemName}"` : '';
+      modal.classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeDeleteModal() {
+      const modal = document.getElementById('delete-modal');
+      modal.classList.add('hidden');
+    }
+  </script>
+</body>
+</html>

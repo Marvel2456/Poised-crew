@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-obsidian">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff &amp; Executive Login | The Poised Crew</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gold: {
+              highlight: '#F8E7A2',
+              primary: '#D4AF37',
+              warm: '#C59D4E',
+              bronze: '#8F6826',
+            },
+            obsidian: '#0A0A0B',
+            midnight: '#141416',
+            surface: '#1F1F24',
+          },
+          fontFamily: {
+            heading: ['Cinzel', 'Playfair Display', 'serif'],
+            sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+</head>
+<body class="h-full bg-leather-texture flex items-center justify-center p-4 font-sans text-slate-100">
+
+  <div class="w-full max-w-md glass-panel rounded-3xl p-8 sm:p-10 border border-gold-primary/40 shadow-2xl space-y-8 relative overflow-hidden">
+    
+    <!-- Top Glow -->
+    <div class="absolute -top-12 left-1/2 -translate-x-1/2 w-48 h-48 bg-gold-primary/15 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="text-center space-y-2 relative z-10">
+      <img src="{% static 'images/crown.svg' %}" alt="Crown" class="w-12 h-12 mx-auto object-contain filter drop-shadow-[0_0_12px_rgba(212,175,55,0.4)]">
+      <h1 class="font-heading font-extrabold text-2xl text-gold-gradient tracking-wider">THE POISED CREW</h1>
+      <p class="text-xs text-gold-warm uppercase tracking-widest font-semibold">Executive CRM &amp; Content Management</p>
+    </div>
+
+    {% if messages %}
+    <div class="space-y-2">
+      {% for message in messages %}
+      <div class="p-3 rounded-xl bg-rose-950/80 border border-rose-500/40 text-rose-200 text-xs text-center">
+        {{ message }}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <form method="POST" class="space-y-5 relative z-10">
+      {% csrf_token %}
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Username</label>
+        <div class="relative">
+          <input type="text" name="username" value="admin" required
+                 class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary focus:ring-1 focus:ring-gold-primary text-slate-100 text-sm pl-10">
+          <i data-lucide="user" class="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5"></i>
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Password</label>
+        <div class="relative">
+          <input type="password" name="password" value="poised2026" required
+                 class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary focus:ring-1 focus:ring-gold-primary text-slate-100 text-sm pl-10">
+          <i data-lucide="lock" class="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5"></i>
+        </div>
+      </div>
+
+      <button type="submit"
+              class="w-full py-3.5 rounded-xl bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black font-bold text-sm shadow-xl hover:scale-[1.02] transition-all flex items-center justify-center gap-2">
+        <i data-lucide="log-in" class="w-4 h-4"></i>
+        <span>Access Operations Dashboard</span>
+      </button>
+
+      <div class="pt-2 text-center">
+        <a href="{% url 'agency:home' %}" class="text-xs text-slate-400 hover:text-gold-highlight transition-colors inline-flex items-center gap-1">
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <span>Return to Public Website</span>
+        </a>
+      </div>
+    </form>
+
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

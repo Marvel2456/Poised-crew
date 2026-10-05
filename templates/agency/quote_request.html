@@ -1,0 +1,354 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Request a Quote / Book Our Team | The Poised Crew{% endblock %}
+
+{% block content %}
+
+<!-- Header Banner -->
+<section class="py-16 bg-leather-texture border-b border-gold-primary/20 text-center relative overflow-hidden">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-midnight border border-gold-primary/30 text-gold-highlight text-xs font-semibold uppercase tracking-widest mb-4">
+      <i data-lucide="calculator" class="w-3.5 h-3.5 text-gold-primary"></i>
+      Event Staffing &amp; Protocol Booking
+    </div>
+    <h1 class="font-heading font-extrabold text-3xl sm:text-5xl text-slate-100">
+      Request a Structured <span class="text-gold-gradient">Staffing Proposal</span>
+    </h1>
+    <p class="text-slate-300 text-sm sm:text-base mt-4 max-w-2xl mx-auto font-light leading-relaxed">
+      Provide your event specifications below. Receive a real-time estimated budget guide and a bespoke proposal tailored to your venue and guest count.
+    </p>
+  </div>
+</section>
+
+<!-- Interactive Booking Engine Section -->
+<section class="py-16 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+  
+  <div id="quote-form-container">
+    <form hx-post="{% url 'agency:book' %}"
+          hx-target="#quote-form-container"
+          hx-swap="innerHTML"
+          hx-indicator="#submit-spinner"
+          class="glass-panel rounded-3xl p-6 sm:p-10 border border-gold-primary/30 shadow-2xl space-y-10">
+      
+      {% csrf_token %}
+
+      <!-- STEP 1: Client & Organization Details -->
+      <div class="space-y-6">
+        <div class="flex items-center gap-3 border-b border-gold-primary/20 pb-3">
+          <span class="w-8 h-8 rounded-full bg-gold-primary text-black font-heading font-bold text-sm flex items-center justify-center">1</span>
+          <div>
+            <h3 class="font-heading font-bold text-lg text-slate-100">Client &amp; Organization Information</h3>
+            <p class="text-xs text-slate-400">Who is organizing or hosting this event?</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+              Full Name <span class="text-gold-primary">*</span>
+            </label>
+            <input type="text" name="full_name" required placeholder="e.g. Dr. Folake Adeleke"
+                   class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary focus:ring-1 focus:ring-gold-primary text-slate-100 text-sm placeholder-slate-500 transition-colors">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+              Organization / Company / Family Name
+            </label>
+            <input type="text" name="organization" placeholder="e.g. AfriTech Holdings / Private"
+                   class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary focus:ring-1 focus:ring-gold-primary text-slate-100 text-sm placeholder-slate-500 transition-colors">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+              Email Address <span class="text-gold-primary">*</span>
+            </label>
+            <input type="email" name="email" required placeholder="e.g. contact@domain.com"
+                   class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary focus:ring-1 focus:ring-gold-primary text-slate-100 text-sm placeholder-slate-500 transition-colors">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+              Phone / WhatsApp Number <span class="text-gold-primary">*</span>
+            </label>
+            <input type="tel" name="phone_whatsapp" required placeholder="e.g. +234 803 000 0000"
+                   class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary focus:ring-1 focus:ring-gold-primary text-slate-100 text-sm placeholder-slate-500 transition-colors">
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: Event Details -->
+      <div class="space-y-6">
+        <div class="flex items-center gap-3 border-b border-gold-primary/20 pb-3">
+          <span class="w-8 h-8 rounded-full bg-gold-primary text-black font-heading font-bold text-sm flex items-center justify-center">2</span>
+          <div>
+            <h3 class="font-heading font-bold text-lg text-slate-100">Event Overview &amp; Location</h3>
+            <p class="text-xs text-slate-400">Tell us where and when the event takes place.</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div class="sm:col-span-2">
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+              Event Title / Name <span class="text-gold-primary">*</span>
+            </label>
+            <input type="text" name="event_name" required placeholder="e.g. Annual West Africa Leadership Summit 2026"
+                   class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary focus:ring-1 focus:ring-gold-primary text-slate-100 text-sm placeholder-slate-500 transition-colors">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+              Event Type <span class="text-gold-primary">*</span>
+            </label>
+            <select name="event_type" id="event_type"
+                    hx-get="{% url 'agency:estimate_api' %}"
+                    hx-target="#live-estimate-badge-container"
+                    hx-include="[name='crew_count'], [name='duration_hours']"
+                    hx-trigger="change"
+                    class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary focus:ring-1 focus:ring-gold-primary text-slate-100 text-sm transition-colors">
+              <option value="corporate">Corporate Conference / AGM</option>
+              <option value="wedding">Luxury Wedding &amp; Reception</option>
+              <option value="protocol">VIP Diplomatic / Government Assembly</option>
+              <option value="gala">Award Ceremony &amp; Gala Dinner</option>
+              <option value="exhibition">Exhibition / Trade Fair</option>
+              <option value="private">Private Soirée / Milestone Birthday</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+              Event Date <span class="text-gold-primary">*</span>
+            </label>
+            <input type="date" name="event_date" required
+                   class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary focus:ring-1 focus:ring-gold-primary text-slate-100 text-sm transition-colors">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+              Location / City <span class="text-gold-primary">*</span>
+            </label>
+            <select name="event_location"
+                    class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary focus:ring-1 focus:ring-gold-primary text-slate-100 text-sm transition-colors">
+              <option value="Lagos - Victoria Island / Ikoyi / Lekki">Lagos (Island / Lekki / Ikoyi)</option>
+              <option value="Lagos - Ikeja / Mainland">Lagos (Mainland / Ikeja)</option>
+              <option value="Abuja FCT">Abuja FCT</option>
+              <option value="Port Harcourt, Rivers">Port Harcourt, Rivers State</option>
+              <option value="Other Nigerian State">Other Nigerian State</option>
+              <option value="International / West Africa">International / West Africa</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+              Venue Name <span class="text-gold-primary">*</span>
+            </label>
+            <input type="text" name="venue_name" required placeholder="e.g. Eko Convention Centre"
+                   class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary focus:ring-1 focus:ring-gold-primary text-slate-100 text-sm placeholder-slate-500 transition-colors">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+              Expected Number of Guests
+            </label>
+            <select name="expected_guests"
+                    class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary focus:ring-1 focus:ring-gold-primary text-slate-100 text-sm transition-colors">
+              <option value="Under 100 Guests">Under 100 Guests (Intimate / VIP)</option>
+              <option value="100 - 300 Guests" selected>100 &ndash; 300 Guests</option>
+              <option value="300 - 700 Guests">300 &ndash; 700 Guests</option>
+              <option value="700 - 1,500 Guests">700 &ndash; 1,500 Guests</option>
+              <option value="1,500+ Large-scale Assembly">1,500+ Large-scale Assembly</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+              Event Duration (Hours)
+            </label>
+            <select name="duration_hours" id="duration_hours"
+                    hx-get="{% url 'agency:estimate_api' %}"
+                    hx-target="#live-estimate-badge-container"
+                    hx-include="[name='crew_count'], [name='event_type']"
+                    hx-trigger="change"
+                    class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary focus:ring-1 focus:ring-gold-primary text-slate-100 text-sm transition-colors">
+              <option value="4">4 Hours (Half Day)</option>
+              <option value="6">6 Hours</option>
+              <option value="8" selected>8 Hours (Full Day Shift)</option>
+              <option value="12">12 Hours (Extended Gala)</option>
+              <option value="16">Multi-Day Engagement</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3: Services Required -->
+      <div class="space-y-6">
+        <div class="flex items-center gap-3 border-b border-gold-primary/20 pb-3">
+          <span class="w-8 h-8 rounded-full bg-gold-primary text-black font-heading font-bold text-sm flex items-center justify-center">3</span>
+          <div>
+            <h3 class="font-heading font-bold text-lg text-slate-100">Services &amp; Scope Required</h3>
+            <p class="text-xs text-slate-400">Select all services you need our team to handle.</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <label class="flex items-start gap-3 p-3.5 rounded-xl bg-midnight border border-slate-800 hover:border-gold-primary/40 transition-all cursor-pointer">
+            <input type="checkbox" name="services" value="Event Ushering & Guest Reception" checked
+                   class="mt-1 w-4 h-4 rounded text-gold-primary focus:ring-gold-primary bg-surface border-slate-700">
+            <div>
+              <span class="text-xs font-semibold text-slate-200">Event Ushering &amp; Guest Reception</span>
+              <p class="text-[11px] text-slate-400">Table seating, program distribution, direction.</p>
+            </div>
+          </label>
+
+          <label class="flex items-start gap-3 p-3.5 rounded-xl bg-midnight border border-slate-800 hover:border-gold-primary/40 transition-all cursor-pointer">
+            <input type="checkbox" name="services" value="VIP & Diplomatic Protocol"
+                   class="mt-1 w-4 h-4 rounded text-gold-primary focus:ring-gold-primary bg-surface border-slate-700">
+            <div>
+              <span class="text-xs font-semibold text-slate-200">VIP &amp; Diplomatic Protocol</span>
+              <p class="text-[11px] text-slate-400">High-table escort, dignitary liaison, state etiquette.</p>
+            </div>
+          </label>
+
+          <label class="flex items-start gap-3 p-3.5 rounded-xl bg-midnight border border-slate-800 hover:border-gold-primary/40 transition-all cursor-pointer">
+            <input type="checkbox" name="services" value="Registration & Badge Check-In"
+                   class="mt-1 w-4 h-4 rounded text-gold-primary focus:ring-gold-primary bg-surface border-slate-700">
+            <div>
+              <span class="text-xs font-semibold text-slate-200">Digital Registration &amp; Badging</span>
+              <p class="text-[11px] text-slate-400">QR code scanning, accreditation, pack handout.</p>
+            </div>
+          </label>
+
+          <label class="flex items-start gap-3 p-3.5 rounded-xl bg-midnight border border-slate-800 hover:border-gold-primary/40 transition-all cursor-pointer">
+            <input type="checkbox" name="services" value="Red Carpet & Media Wall Management"
+                   class="mt-1 w-4 h-4 rounded text-gold-primary focus:ring-gold-primary bg-surface border-slate-700">
+            <div>
+              <span class="text-xs font-semibold text-slate-200">Red-Carpet &amp; Media Flow</span>
+              <p class="text-[11px] text-slate-400">Arrival pacing, media wall, celebrity chaperone.</p>
+            </div>
+          </label>
+
+          <label class="flex items-start gap-3 p-3.5 rounded-xl bg-midnight border border-slate-800 hover:border-gold-primary/40 transition-all cursor-pointer">
+            <input type="checkbox" name="services" value="Conference & Breakout Hall Support"
+                   class="mt-1 w-4 h-4 rounded text-gold-primary focus:ring-gold-primary bg-surface border-slate-700">
+            <div>
+              <span class="text-xs font-semibold text-slate-200">Conference &amp; Breakout Support</span>
+              <p class="text-[11px] text-slate-400">Microphone runners, speaker timing, stage support.</p>
+            </div>
+          </label>
+
+          <label class="flex items-start gap-3 p-3.5 rounded-xl bg-midnight border border-slate-800 hover:border-gold-primary/40 transition-all cursor-pointer">
+            <input type="checkbox" name="services" value="Souvenir & Gift Security Management"
+                   class="mt-1 w-4 h-4 rounded text-gold-primary focus:ring-gold-primary bg-surface border-slate-700">
+            <div>
+              <span class="text-xs font-semibold text-slate-200">Souvenir &amp; Spray Currency Control</span>
+              <p class="text-[11px] text-slate-400">Gift inventory custody and verified handovers.</p>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- STEP 4: Staffing Specifications -->
+      <div class="space-y-6">
+        <div class="flex items-center gap-3 border-b border-gold-primary/20 pb-3">
+          <span class="w-8 h-8 rounded-full bg-gold-primary text-black font-heading font-bold text-sm flex items-center justify-center">4</span>
+          <div>
+            <h3 class="font-heading font-bold text-lg text-slate-100">Crew Size &amp; Uniform Styling</h3>
+            <p class="text-xs text-slate-400">Configure team headcount and dress style.</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+              Number of Ushers / Officers
+            </label>
+            <input type="number" name="crew_count" id="crew_count" value="12" min="4" max="100"
+                   hx-get="{% url 'agency:estimate_api' %}"
+                   hx-target="#live-estimate-badge-container"
+                   hx-include="[name='duration_hours'], [name='event_type']"
+                   hx-trigger="change, keyup delay:400ms"
+                   class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary focus:ring-1 focus:ring-gold-primary text-slate-100 text-sm font-bold text-gold-highlight">
+            <span class="text-[11px] text-slate-400 mt-1 block">Recommended: 1 usher per 25-30 guests</span>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+              Gender Preference
+            </label>
+            <select name="gender_preference"
+                    class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary focus:ring-1 focus:ring-gold-primary text-slate-100 text-sm">
+              <option value="Balanced Mix (Male & Female)">Balanced Mix (Male &amp; Female)</option>
+              <option value="All Female Hostesses">All Female Hostesses</option>
+              <option value="All Male Protocol Officers">All Male Protocol Officers</option>
+              <option value="No Specific Preference">No Specific Preference</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+              Uniform Styling Preference
+            </label>
+            <select name="uniform_preference"
+                    class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary focus:ring-1 focus:ring-gold-primary text-slate-100 text-sm">
+              <option value="Imperial Black-Tie Tuxedo & Gown">Imperial Black-Tie Tuxedo &amp; Gown</option>
+              <option value="Royal Velvet / Aso-Ebi Aligned">Royal Velvet / Aso-Ebi Aligned</option>
+              <option value="Corporate Obsidian & Gold Suiting">Corporate Obsidian &amp; Gold Suiting</option>
+              <option value="Monochrome Minimalist Hostess">Monochrome Minimalist Hostess</option>
+              <option value="Custom Event-Themed Uniform">Custom Event-Themed Uniform</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+            Special Instructions / VIP Dignitaries Expected
+          </label>
+          <textarea name="special_requirements" rows="3" placeholder="e.g. Expected dignitaries: 2 State Governors and 5 Foreign Ambassadors. Need 4 officers fluent in French."
+                    class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary focus:ring-1 focus:ring-gold-primary text-slate-100 text-sm placeholder-slate-500"></textarea>
+        </div>
+      </div>
+
+      <!-- LIVE ESTIMATE BADGE CONTAINER (HTMX Dynamic) -->
+      <div id="live-estimate-badge-container">
+        <div id="live-estimate-badge" class="p-4 rounded-2xl bg-gradient-to-r from-midnight via-surface to-midnight border border-gold-primary/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-inner">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gold-primary/20 border border-gold-primary/40 flex items-center justify-center text-gold-highlight flex-shrink-0">
+              <i data-lucide="calculator" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="text-[11px] text-slate-400 uppercase tracking-wider">Estimated Budget Guide (NGN)</div>
+              <div class="font-heading font-bold text-lg sm:text-xl text-gold-gradient">
+                ₦432,000 &ndash; ₦576,000
+              </div>
+            </div>
+          </div>
+          <div class="text-[11px] text-slate-400 text-right">
+            <span>Based on <strong>12 Officers</strong> &bull; <strong>8 Hours</strong></span>
+            <div class="text-[10px] text-gold-warm italic">Includes deployment lead &amp; briefing</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Section -->
+      <div class="pt-6 border-t border-gold-primary/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="text-xs text-slate-400 text-center sm:text-left">
+          <p>🔒 Strictly confidential &bull; No obligation quote &bull; 2-hour response guarantee</p>
+        </div>
+
+        <button type="submit"
+                class="w-full sm:w-auto px-10 py-4 rounded-full bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black font-bold text-base shadow-[0_0_25px_rgba(212,175,55,0.4)] hover:scale-105 transition-all flex items-center justify-center gap-2">
+          <span id="submit-spinner" class="htmx-indicator">
+            <div class="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
+          </span>
+          <span>Submit Request &amp; Get Proposal</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% load static %}
+
+{% block header_title %}Applicant Profile: {{ application.full_name }}{% endblock %}
+
+{% block content %}
+
+<div class="max-w-4xl space-y-6">
+  
+  <div class="flex items-center justify-between">
+    <a href="{% url 'agency:crew_applications_list' %}" class="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-gold-highlight transition-colors">
+      <i data-lucide="arrow-left" class="w-4 h-4"></i>
+      <span>Back to Applicant Roster</span>
+    </a>
+
+    <!-- Status Updater -->
+    <form method="POST" action="{% url 'agency:crew_application_update_status' application.id %}" class="flex items-center gap-2">
+      {% csrf_token %}
+      <span class="text-xs text-slate-400">Application Status:</span>
+      <select name="status" onchange="this.form.submit()"
+              class="px-3 py-1.5 rounded-xl bg-midnight border border-slate-700 text-xs font-semibold text-gold-highlight">
+        <option value="pending" {% if application.status == 'pending' %}selected{% endif %}>Pending Review</option>
+        <option value="shortlisted" {% if application.status == 'shortlisted' %}selected{% endif %}>Shortlisted for Audition</option>
+        <option value="accepted" {% if application.status == 'accepted' %}selected{% endif %}>Accepted into Academy</option>
+        <option value="active" {% if application.status == 'active' %}selected{% endif %}>Active Protocol Officer</option>
+        <option value="rejected" {% if application.status == 'rejected' %}selected{% endif %}>Not Selected</option>
+      </select>
+    </form>
+  </div>
+
+  <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-gold-primary/30 space-y-6 shadow-2xl">
+    
+    <div class="flex items-start justify-between border-b border-slate-800 pb-5">
+      <div>
+        <h3 class="font-heading font-bold text-2xl text-slate-100">{{ application.full_name }}</h3>
+        <p class="text-xs text-gold-warm mt-1">{{ application.gender }} &bull; {{ application.age }} Years Old &bull; {{ application.city }}</p>
+      </div>
+      <span class="px-3 py-1 rounded-full text-xs font-semibold bg-gold-primary/10 text-gold-highlight border border-gold-primary/30">
+        {{ application.get_status_display }}
+      </span>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+      <div class="p-3.5 rounded-xl bg-midnight border border-slate-800">
+        <span class="text-slate-400">Height:</span>
+        <div class="font-bold text-gold-highlight text-sm mt-0.5">{{ application.height_cm }} cm</div>
+      </div>
+      <div class="p-3.5 rounded-xl bg-midnight border border-slate-800">
+        <span class="text-slate-400">Phone / WhatsApp:</span>
+        <div class="font-semibold text-slate-200 text-sm mt-0.5 font-mono">{{ application.phone_whatsapp }}</div>
+      </div>
+      <div class="p-3.5 rounded-xl bg-midnight border border-slate-800">
+        <span class="text-slate-400">Email Address:</span>
+        <div class="font-semibold text-slate-200 text-sm mt-0.5"><a href="mailto:{{ application.email }}" class="hover:underline">{{ application.email }}</a></div>
+      </div>
+      <div class="p-3.5 rounded-xl bg-midnight border border-slate-800">
+        <span class="text-slate-400">Languages Spoken:</span>
+        <div class="font-semibold text-slate-200 text-sm mt-0.5">{{ application.languages }}</div>
+      </div>
+      <div class="p-3.5 rounded-xl bg-midnight border border-slate-800">
+        <span class="text-slate-400">Educational Level:</span>
+        <div class="font-semibold text-slate-200 text-sm mt-0.5">{{ application.education }}</div>
+      </div>
+      <div class="p-3.5 rounded-xl bg-midnight border border-slate-800">
+        <span class="text-slate-400">Instagram Handle:</span>
+        <div class="font-semibold text-gold-warm text-sm mt-0.5">{{ application.instagram_handle|default:'None provided' }}</div>
+      </div>
+    </div>
+
+    {% if application.experience_summary %}
+    <div class="p-4 rounded-xl bg-midnight border border-slate-800 space-y-1">
+      <span class="text-xs text-slate-400 font-semibold">Experience &amp; Event Background:</span>
+      <p class="text-xs text-slate-200 leading-relaxed">{{ application.experience_summary }}</p>
+    </div>
+    {% endif %}
+
+    <!-- Contact Shortcuts -->
+    <div class="pt-4 border-t border-slate-800 flex items-center gap-4">
+      <a href="https://wa.me/{{ application.phone_whatsapp|cut:' '|cut:'+' }}?text=Hello%20{{ application.full_name|urlencode }}%2C%20The%20Poised%20Crew%20Academy%20has%20reviewed%20your%20audition%20application." target="_blank"
+         class="px-6 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg">
+        <i data-lucide="message-circle" class="w-4 h-4"></i>
+        <span>Message Candidate on WhatsApp</span>
+      </a>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

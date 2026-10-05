@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Quote Request Received | The Poised Crew{% endblock %}
+
+{% block content %}
+<section class="py-20 bg-leather-texture min-h-[80vh] flex items-center justify-center px-4">
+  {% include 'agency/partials/quote_success.html' %}
+</section>
+{% endblock %}

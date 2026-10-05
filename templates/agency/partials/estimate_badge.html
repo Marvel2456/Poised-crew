@@ -1,0 +1,18 @@
+<div id="live-estimate-badge" class="p-4 rounded-2xl bg-gradient-to-r from-midnight via-surface to-midnight border border-gold-primary/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-inner">
+  <div class="flex items-center gap-3">
+    <div class="w-10 h-10 rounded-xl bg-gold-primary/20 border border-gold-primary/40 flex items-center justify-center text-gold-highlight flex-shrink-0">
+      <i data-lucide="calculator" class="w-5 h-5"></i>
+    </div>
+    <div>
+      <div class="text-[11px] text-slate-400 uppercase tracking-wider">Estimated Budget Guide (NGN)</div>
+      <div class="font-heading font-bold text-lg sm:text-xl text-gold-gradient">
+        ₦{{ est_min }} &ndash; ₦{{ est_max }}
+      </div>
+    </div>
+  </div>
+
+  <div class="text-[11px] text-slate-400 text-right">
+    <span>Based on <strong>{{ crew_count }} Officers</strong> &bull; <strong>{{ duration_hours }} Hours</strong></span>
+    <div class="text-[10px] text-gold-warm italic">Includes deployment lead &amp; briefing</div>
+  </div>
+</div>

@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Our Services | The Poised Crew — VIP Protocol & Ushering Directory{% endblock %}
+
+{% block content %}
+
+<!-- Header Banner -->
+<section class="py-16 bg-leather-texture border-b border-gold-primary/20 text-center relative overflow-hidden">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-midnight border border-gold-primary/30 text-gold-highlight text-xs font-semibold uppercase tracking-widest mb-4">
+      <i data-lucide="crown" class="w-3.5 h-3.5 text-gold-primary"></i>
+      Our Service Directory
+    </div>
+    <h1 class="font-heading font-extrabold text-3xl sm:text-5xl text-slate-100">
+      Bespoke Protocol &amp; <span class="text-gold-gradient">Event Ushering Solutions</span>
+    </h1>
+    <p class="text-slate-300 text-sm sm:text-base mt-4 max-w-2xl mx-auto font-light leading-relaxed">
+      Explore our comprehensive suite of event hostessing, dignitary protocol, and conference management capabilities across West Africa.
+    </p>
+  </div>
+</section>
+
+<!-- Filter Tabs & Services Directory -->
+<section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  
+  <!-- Category Filter Buttons (HTMX) -->
+  <div class="flex flex-wrap items-center justify-center gap-3 mb-12" id="service-filters">
+    <button hx-get="{% url 'agency:services' %}?category=all"
+            hx-target="#services-grid-container"
+            hx-indicator="#loading-indicator"
+            class="px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all {% if current_category == 'all' %}bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black shadow-lg{% else %}bg-surface text-slate-300 hover:text-gold-highlight border border-gold-primary/20{% endif %}">
+      All Services
+    </button>
+    <button hx-get="{% url 'agency:services' %}?category=protocol"
+            hx-target="#services-grid-container"
+            hx-indicator="#loading-indicator"
+            class="px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all {% if current_category == 'protocol' %}bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black shadow-lg{% else %}bg-surface text-slate-300 hover:text-gold-highlight border border-gold-primary/20{% endif %}">
+      VIP &amp; Diplomatic Protocol
+    </button>
+    <button hx-get="{% url 'agency:services' %}?category=ushering"
+            hx-target="#services-grid-container"
+            hx-indicator="#loading-indicator"
+            class="px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all {% if current_category == 'ushering' %}bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black shadow-lg{% else %}bg-surface text-slate-300 hover:text-gold-highlight border border-gold-primary/20{% endif %}">
+      Event Ushering &amp; Weddings
+    </button>
+    <button hx-get="{% url 'agency:services' %}?category=corporate"
+            hx-target="#services-grid-container"
+            hx-indicator="#loading-indicator"
+            class="px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all {% if current_category == 'corporate' %}bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black shadow-lg{% else %}bg-surface text-slate-300 hover:text-gold-highlight border border-gold-primary/20{% endif %}">
+      Corporate &amp; Summits
+    </button>
+    <button hx-get="{% url 'agency:services' %}?category=specialist"
+            hx-target="#services-grid-container"
+            hx-indicator="#loading-indicator"
+            class="px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all {% if current_category == 'specialist' %}bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black shadow-lg{% else %}bg-surface text-slate-300 hover:text-gold-highlight border border-gold-primary/20{% endif %}">
+      Specialist Logistics
+    </button>
+  </div>
+
+  <!-- Loading indicator -->
+  <div id="loading-indicator" class="htmx-indicator justify-center py-6">
+    <div class="flex items-center gap-2 text-gold-highlight text-sm">
+      <div class="w-4 h-4 border-2 border-gold-primary border-t-transparent rounded-full animate-spin"></div>
+      <span>Filtering services...</span>
+    </div>
+  </div>
+
+  <!-- Services Grid Container -->
+  <div id="services-grid-container">
+    {% include 'agency/partials/services_grid.html' %}
+  </div>
+
+</section>
+
+<!-- Fast Inquiry CTA -->
+<section class="py-16 bg-midnight/80 border-t border-gold-primary/20 text-center">
+  <div class="max-w-4xl mx-auto px-4">
+    <h3 class="font-heading text-2xl sm:text-3xl font-bold text-slate-100">Need a Custom Protocol Deployment Package?</h3>
+    <p class="text-slate-400 text-sm mt-2 max-w-xl mx-auto">Tell us about your event duration, venue, and dignitary requirements. We build customized crew deployments.</p>
+    <div class="mt-6 flex justify-center gap-4">
+      <a href="{% url 'agency:book' %}" class="px-8 py-3.5 rounded-full bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black font-bold text-sm shadow-xl hover:scale-105 transition-all">
+        Build Custom Staffing Quote
+      </a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
