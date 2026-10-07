@@ -10,13 +10,13 @@
   <div class="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-midnight border border-gold-primary/30 text-gold-highlight text-xs font-semibold uppercase tracking-widest mb-4">
       <i data-lucide="crown" class="w-3.5 h-3.5 text-gold-primary"></i>
-      Our Story &amp; Ethos
+      {{ site_content.about_hero_badge|default:"Our Story & Ethos" }}
     </div>
     <h1 class="font-heading font-extrabold text-3xl sm:text-5xl text-slate-100">
-      Redefining African Event Hospitality With <span class="text-gold-gradient">Unmatched Poise.</span>
+      {{ site_content.about_hero_title|default:"Redefining African Event Hospitality With Unmatched Poise." }}
     </h1>
     <p class="text-slate-300 text-sm sm:text-base mt-4 max-w-2xl mx-auto font-light leading-relaxed">
-      Founded on the conviction that event staffing should be a disciplined craft of diplomatic excellence, executive etiquette, and genuine African warmth.
+      {{ site_content.about_hero_subtitle }}
     </p>
   </div>
 </section>
@@ -26,36 +26,36 @@
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
     <div class="space-y-6">
       <h2 class="font-heading text-2xl sm:text-3xl font-bold text-slate-100">
-        The Poised Story: From Event Staffing to Protocol Authority
+        {{ site_content.about_story_title|default:"The Poised Story: From Event Staffing to Protocol Authority" }}
       </h2>
       <p class="text-slate-300 text-sm leading-relaxed">
-        <strong>The Poised Crew</strong> was established to bridge a critical gap in the luxury and corporate event industry: the need for impeccably trained, highly punctual, and intellectually sharp protocol officers who can effortlessly navigate both cultural traditions and strict diplomatic decorum.
+        {{ site_content.about_story_paragraph_1 }}
       </p>
       <p class="text-slate-400 text-sm leading-relaxed">
-        Whether handling the accreditation of 3,000 international delegates at an African energy summit or orchestrating royal family protocol at a multi-day wedding, our crew brings calmness, precision, and commanding elegance to every engagement.
+        {{ site_content.about_story_paragraph_2 }}
       </p>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
         <div class="p-5 rounded-2xl bg-midnight border border-gold-primary/30">
           <i data-lucide="compass" class="w-6 h-6 text-gold-primary mb-2"></i>
-          <h4 class="font-heading font-bold text-slate-100 text-base">Our Mission</h4>
-          <p class="text-slate-400 text-xs mt-1.5 leading-relaxed">To provide flawless hospitality and protocol choreography that protects our clients' prestige and creates an unforgettable guest experience.</p>
+          <h4 class="font-heading font-bold text-slate-100 text-base">{{ site_content.mission_title|default:"Our Mission" }}</h4>
+          <p class="text-slate-400 text-xs mt-1.5 leading-relaxed">{{ site_content.mission_statement }}</p>
         </div>
         <div class="p-5 rounded-2xl bg-midnight border border-gold-primary/30">
           <i data-lucide="eye" class="w-6 h-6 text-gold-primary mb-2"></i>
-          <h4 class="font-heading font-bold text-slate-100 text-base">Our Vision</h4>
-          <p class="text-slate-400 text-xs mt-1.5 leading-relaxed">To be Africa's benchmark institution for diplomatic protocol, luxury event ushering, and executive hospitality leadership.</p>
+          <h4 class="font-heading font-bold text-slate-100 text-base">{{ site_content.vision_title|default:"Our Vision" }}</h4>
+          <p class="text-slate-400 text-xs mt-1.5 leading-relaxed">{{ site_content.vision_statement }}</p>
         </div>
       </div>
     </div>
 
     <!-- Visual Showcase -->
     <div class="relative rounded-3xl overflow-hidden glass-panel p-2">
-      <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1000&q=80" alt="Diplomatic Assembly" class="w-full h-[440px] object-cover rounded-2xl">
+      <img src="{{ site_content.display_academy_image }}" alt="Diplomatic Assembly" class="w-full h-[440px] object-cover rounded-2xl">
       <div class="absolute bottom-6 left-6 right-6 p-4 rounded-xl bg-obsidian/90 backdrop-blur-md border border-gold-primary/30 flex items-center justify-between">
         <div>
-          <h5 class="text-slate-100 font-heading text-sm font-semibold">The Poised Academy</h5>
-          <p class="text-slate-400 text-xs">Over 400 hours of annual protocol &amp; etiquette drill sessions</p>
+          <h5 class="text-slate-100 font-heading text-sm font-semibold">{{ site_content.academy_title|default:"The Poised Academy" }}</h5>
+          <p class="text-slate-400 text-xs">{{ site_content.academy_description }}</p>
         </div>
         <i data-lucide="award" class="w-8 h-8 text-gold-primary flex-shrink-0"></i>
       </div>
@@ -75,7 +75,7 @@
       {% for val in values %}
       <div class="glass-card rounded-2xl p-6 border-gold-primary/20">
         <div class="w-10 h-10 rounded-xl bg-gold-primary/10 border border-gold-primary/30 flex items-center justify-center text-gold-highlight mb-4">
-          <i data-lucide="{{ val.icon }}" class="w-5 h-5"></i>
+          <i data-lucide="{{ val.icon_name|default:val.icon|default:'crown' }}" class="w-5 h-5"></i>
         </div>
         <h3 class="font-heading font-bold text-lg text-slate-100">{{ val.title }}</h3>
         <p class="text-slate-400 text-xs sm:text-sm mt-2 leading-relaxed">{{ val.desc }}</p>

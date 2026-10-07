@@ -12,7 +12,7 @@
     <span>Back to Testimonials</span>
   </a>
 
-  <form method="POST" class="glass-panel rounded-3xl p-6 sm:p-8 border border-gold-primary/30 shadow-2xl space-y-5">
+  <form method="POST" enctype="multipart/form-data" class="glass-panel rounded-3xl p-6 sm:p-8 border border-gold-primary/30 shadow-2xl space-y-5">
     {% csrf_token %}
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -38,6 +38,34 @@
         <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Star Rating (1 to 5)</label>
         <input type="number" name="rating" min="1" max="5" value="{{ testimonial.rating|default:5 }}"
                class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary text-slate-100 text-sm font-bold text-gold-highlight">
+      </div>
+    </div>
+
+    <!-- Avatar Upload Field -->
+    <div class="p-5 rounded-2xl bg-surface/80 border border-gold-primary/20 space-y-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <label class="block text-xs font-bold text-gold-highlight uppercase tracking-wider">Client Photo / Headshot</label>
+          <p class="text-[11px] text-slate-400">Upload client photo. It will be compressed to WebP automatically.</p>
+        </div>
+        {% if testimonial and testimonial.display_avatar %}
+        <div class="w-12 h-12 rounded-full overflow-hidden border border-gold-primary/30 flex-shrink-0">
+          <img src="{{ testimonial.display_avatar }}" alt="Client photo" class="w-full h-full object-cover">
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Upload Photo File</label>
+          <input type="file" name="avatar" accept="image/*"
+                 class="w-full px-3 py-2 rounded-xl bg-midnight border border-slate-700 text-slate-300 text-xs file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-gold-primary file:text-black hover:file:bg-gold-highlight cursor-pointer">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Or Photo URL (External)</label>
+          <input type="text" name="avatar_url" value="{{ testimonial.avatar_url|default:'' }}" placeholder="https://..."
+                 class="w-full px-4 py-2.5 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary text-slate-100 text-xs font-mono">
+        </div>
       </div>
     </div>
 

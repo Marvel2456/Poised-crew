@@ -6,7 +6,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils.text import slugify
-from .models import Service, EventPortfolio, UniformStyle, GalleryItem, Testimonial, QuoteInquiry, CrewApplication
+from .models import (
+    Service, EventPortfolio, UniformStyle, GalleryItem, Testimonial, 
+    QuoteInquiry, CrewApplication, SiteContent, CoreValue
+)
+from .utils import compress_and_convert_to_webp
 
 
 def dashboard_login_view(request):
@@ -85,11 +89,11 @@ def inquiry_detail_view(request, pk):
 
     # Pre-formatted WhatsApp reply message
     reply_msg = (
-        f"👑 *THE POISED CREW - OFFICIAL PROPOSAL & AVAILABILITY*\n\n"
+        f"👑 *THE POISED CREW - OFFICIAL PROPOSAL & INVOICE*\n\n"
         f"Dear {inquiry.full_name},\n"
-        f"Thank you for reaching out regarding *{inquiry.event_name}* on *{inquiry.event_date}*.\n\n"
-        f"We have reserved your preliminary date slot for {inquiry.crew_count} Protocol Officers ({inquiry.uniform_preference}).\n"
-        f"Our team lead is ready to discuss the final itinerary and dispatch requirements.\n\n"
+        f"Thank you for contacting The Poised Crew regarding *{inquiry.event_name}* on *{inquiry.event_date}*.\n\n"
+        f"We have confirmed date availability for {inquiry.crew_count} Protocol Officers ({inquiry.uniform_preference}).\n"
+        f"I am sending your tailored staffing proposal and official itemized invoice for review.\n\n"
         f"Best regards,\n"
         f"*Lead Protocol Director, The Poised Crew*"
     )
@@ -233,6 +237,10 @@ def portfolio_form_view(request, pk=None):
         is_featured = request.POST.get('is_featured') == 'on'
         order = int(request.POST.get('order', 0) or 0)
 
+        # Handle Image File Upload & WebP Compression
+        uploaded_image = request.FILES.get('image')
+        compressed_image = compress_and_convert_to_webp(uploaded_image) if uploaded_image else None
+
         if item:
             item.title = title
             item.category = category
@@ -246,11 +254,14 @@ def portfolio_form_view(request, pk=None):
             item.services_provided = services_provided
             item.summary = summary
             item.highlight_result = highlight_result
-            item.image_url = image_url
+            if image_url:
+                item.image_url = image_url
+            if compressed_image:
+                item.image = compressed_image
             item.is_featured = is_featured
             item.order = order
             item.save()
-            messages.success(request, f"Case study '{item.title}' updated.")
+            messages.success(request, f"Case study '{item.title}' updated successfully.")
         else:
             item = EventPortfolio.objects.create(
                 title=title,
@@ -264,11 +275,12 @@ def portfolio_form_view(request, pk=None):
                 services_provided=services_provided,
                 summary=summary,
                 highlight_result=highlight_result,
+                image=compressed_image,
                 image_url=image_url,
                 is_featured=is_featured,
                 order=order,
             )
-            messages.success(request, f"New case study '{item.title}' added.")
+            messages.success(request, f"New case study '{item.title}' created.")
 
         return redirect('agency:portfolio_admin_list')
 
@@ -307,14 +319,18 @@ def gallery_create_view(request):
         caption = request.POST.get('caption', '').strip()
         order = int(request.POST.get('order', 0) or 0)
 
+        uploaded_image = request.FILES.get('image')
+        compressed_image = compress_and_convert_to_webp(uploaded_image) if uploaded_image else None
+
         GalleryItem.objects.create(
             title=title,
             category=category,
+            image=compressed_image,
             image_url=image_url,
             caption=caption,
             order=order
         )
-        messages.success(request, 'Gallery item added.')
+        messages.success(request, 'Gallery item uploaded and optimized.')
         return redirect('agency:gallery_admin_list')
     
     return render(request, 'dashboard/gallery_form.html', {'categories': GalleryItem.CATEGORY_CHOICES})
@@ -342,13 +358,19 @@ def uniform_form_view(request, pk=None):
         color_palette = request.POST.get('color_palette', '').strip()
         image_url = request.POST.get('image_url', '').strip()
 
+        uploaded_image = request.FILES.get('image')
+        compressed_image = compress_and_convert_to_webp(uploaded_image) if uploaded_image else None
+
         if uniform:
             uniform.name = name
             uniform.tag = tag
             uniform.description = description
             uniform.gender = gender
             uniform.color_palette = color_palette
-            uniform.image_url = image_url
+            if image_url:
+                uniform.image_url = image_url
+            if compressed_image:
+                uniform.image = compressed_image
             uniform.save()
             messages.success(request, f"Uniform style '{uniform.name}' updated.")
         else:
@@ -358,11 +380,14 @@ def uniform_form_view(request, pk=None):
                 description=description,
                 gender=gender,
                 color_palette=color_palette,
+                image=compressed_image,
                 image_url=image_url
             )
             messages.success(request, f"New uniform style '{name}' created.")
 
         return redirect('agency:gallery_admin_list')
+
+    return render(request, 'dashboard/uniform_form.html', {'uniform': uniform})
 
     return render(request, 'dashboard/uniform_form.html', {'uniform': uniform})
 
@@ -424,7 +449,11 @@ def testimonial_form_view(request, pk=None):
         event_name = request.POST.get('event_name', '').strip()
         quote = request.POST.get('quote', '').strip()
         rating = int(request.POST.get('rating', 5) or 5)
+        avatar_url = request.POST.get('avatar_url', '').strip()
         is_featured = request.POST.get('is_featured') == 'on'
+
+        uploaded_avatar = request.FILES.get('avatar')
+        compressed_avatar = compress_and_convert_to_webp(uploaded_avatar, max_width=600, max_height=600) if uploaded_avatar else None
 
         if testimonial:
             testimonial.client_name = client_name
@@ -432,6 +461,10 @@ def testimonial_form_view(request, pk=None):
             testimonial.event_name = event_name
             testimonial.quote = quote
             testimonial.rating = rating
+            if avatar_url:
+                testimonial.avatar_url = avatar_url
+            if compressed_avatar:
+                testimonial.avatar = compressed_avatar
             testimonial.is_featured = is_featured
             testimonial.save()
             messages.success(request, 'Testimonial updated.')
@@ -442,6 +475,8 @@ def testimonial_form_view(request, pk=None):
                 event_name=event_name,
                 quote=quote,
                 rating=rating,
+                avatar=compressed_avatar,
+                avatar_url=avatar_url,
                 is_featured=is_featured
             )
             messages.success(request, 'New testimonial added.')
@@ -459,3 +494,121 @@ def testimonial_delete_view(request, pk):
         messages.success(request, 'Testimonial deleted.')
         return redirect('agency:testimonials_admin_list')
     return render(request, 'dashboard/confirm_delete.html', {'item_type': 'Testimonial', 'item_name': testimonial.client_name, 'cancel_url': 'agency:testimonials_admin_list'})
+
+
+# ==================== WEBSITE CONTENT & SETTINGS CMS ====================
+
+@login_required(login_url='agency:dashboard_login')
+def site_content_admin_view(request):
+    content = SiteContent.get_solo()
+    core_values = CoreValue.objects.all()
+
+    if request.method == 'POST':
+        # About Us & Story
+        content.about_hero_badge = request.POST.get('about_hero_badge', '').strip() or content.about_hero_badge
+        content.about_hero_title = request.POST.get('about_hero_title', '').strip() or content.about_hero_title
+        content.about_hero_subtitle = request.POST.get('about_hero_subtitle', '').strip() or content.about_hero_subtitle
+        content.about_story_title = request.POST.get('about_story_title', '').strip() or content.about_story_title
+        content.about_story_paragraph_1 = request.POST.get('about_story_paragraph_1', '').strip() or content.about_story_paragraph_1
+        content.about_story_paragraph_2 = request.POST.get('about_story_paragraph_2', '').strip() or content.about_story_paragraph_2
+        
+        # Mission & Vision
+        content.mission_title = request.POST.get('mission_title', '').strip() or content.mission_title
+        content.mission_statement = request.POST.get('mission_statement', '').strip() or content.mission_statement
+        content.vision_title = request.POST.get('vision_title', '').strip() or content.vision_title
+        content.vision_statement = request.POST.get('vision_statement', '').strip() or content.vision_statement
+
+        # Academy & Showcase Image
+        content.academy_title = request.POST.get('academy_title', '').strip() or content.academy_title
+        content.academy_description = request.POST.get('academy_description', '').strip() or content.academy_description
+        academy_url_input = request.POST.get('academy_image_url', '').strip()
+        if academy_url_input:
+            content.academy_image_url = academy_url_input
+
+        uploaded_academy = request.FILES.get('academy_image')
+        if uploaded_academy:
+            compressed_academy = compress_and_convert_to_webp(uploaded_academy)
+            if compressed_academy:
+                content.academy_image = compressed_academy
+
+        # Homepage Hero
+        content.hero_badge = request.POST.get('hero_badge', '').strip() or content.hero_badge
+        content.hero_title = request.POST.get('hero_title', '').strip() or content.hero_title
+        content.hero_subtitle = request.POST.get('hero_subtitle', '').strip() or content.hero_subtitle
+        content.hero_guarantee_1 = request.POST.get('hero_guarantee_1', '').strip() or content.hero_guarantee_1
+        content.hero_guarantee_2 = request.POST.get('hero_guarantee_2', '').strip() or content.hero_guarantee_2
+        content.hero_guarantee_3 = request.POST.get('hero_guarantee_3', '').strip() or content.hero_guarantee_3
+
+        # Stats
+        content.stat_events_count = request.POST.get('stat_events_count', '').strip() or content.stat_events_count
+        content.stat_events_label = request.POST.get('stat_events_label', '').strip() or content.stat_events_label
+        content.stat_officers_count = request.POST.get('stat_officers_count', '').strip() or content.stat_officers_count
+        content.stat_officers_label = request.POST.get('stat_officers_label', '').strip() or content.stat_officers_label
+        content.stat_punctuality_rate = request.POST.get('stat_punctuality_rate', '').strip() or content.stat_punctuality_rate
+        content.stat_punctuality_label = request.POST.get('stat_punctuality_label', '').strip() or content.stat_punctuality_label
+        content.stat_summits_count = request.POST.get('stat_summits_count', '').strip() or content.stat_summits_count
+        content.stat_summits_label = request.POST.get('stat_summits_label', '').strip() or content.stat_summits_label
+
+        # Company & Contact
+        content.company_name = request.POST.get('company_name', '').strip() or content.company_name
+        content.tagline = request.POST.get('tagline', '').strip() or content.tagline
+        content.phone_display = request.POST.get('phone_display', '').strip() or content.phone_display
+        content.whatsapp_number = request.POST.get('whatsapp_number', '').strip() or content.whatsapp_number
+        content.email_address = request.POST.get('email_address', '').strip() or content.email_address
+        content.office_address = request.POST.get('office_address', '').strip() or content.office_address
+        content.instagram_handle = request.POST.get('instagram_handle', '').strip() or content.instagram_handle
+
+        # CTA Banner
+        content.cta_banner_title = request.POST.get('cta_banner_title', '').strip() or content.cta_banner_title
+        content.cta_banner_subtitle = request.POST.get('cta_banner_subtitle', '').strip() or content.cta_banner_subtitle
+
+        content.save()
+        messages.success(request, 'Website content and settings successfully updated!')
+        return redirect('agency:site_content_edit')
+
+    context = {
+        'content': content,
+        'core_values': core_values,
+    }
+    return render(request, 'dashboard/site_content_edit.html', context)
+
+
+@login_required(login_url='agency:dashboard_login')
+def core_value_form_view(request, pk=None):
+    val = get_object_or_404(CoreValue, pk=pk) if pk else None
+    if request.method == 'POST':
+        title = request.POST.get('title', '').strip()
+        description = request.POST.get('description', '').strip()
+        icon_name = request.POST.get('icon_name', 'crown').strip()
+        order = int(request.POST.get('order', 0) or 0)
+
+        if val:
+            val.title = title
+            val.description = description
+            val.icon_name = icon_name
+            val.order = order
+            val.save()
+            messages.success(request, f"Core Value '{title}' updated.")
+        else:
+            CoreValue.objects.create(
+                title=title,
+                description=description,
+                icon_name=icon_name,
+                order=order,
+            )
+            messages.success(request, f"New Core Value '{title}' created.")
+        return redirect('agency:site_content_edit')
+
+    return render(request, 'dashboard/core_value_form.html', {'value': val})
+
+
+@login_required(login_url='agency:dashboard_login')
+def core_value_delete_view(request, pk):
+    val = get_object_or_404(CoreValue, pk=pk)
+    if request.method == 'POST':
+        val_name = val.title
+        val.delete()
+        messages.success(request, f"Core Value '{val_name}' deleted.")
+        return redirect('agency:site_content_edit')
+    return render(request, 'dashboard/confirm_delete.html', {'item_type': 'Core Value', 'item_name': val.title, 'cancel_url': 'agency:site_content_edit'})
+

@@ -34,8 +34,11 @@
       <span class="font-semibold text-slate-200">{{ inquiry.uniform_preference }}</span>
     </div>
     <div class="flex justify-between py-1.5">
-      <span class="text-slate-400">Estimated Budget Range:</span>
-      <span class="font-heading font-bold text-gold-gradient text-sm sm:text-base">₦{{ est_min|floatformat:0 }} &ndash; ₦{{ est_max|floatformat:0 }}</span>
+      <span class="text-slate-400">Invoice &amp; Proposal:</span>
+      <span class="font-semibold text-emerald-400 flex items-center gap-1.5">
+        <i data-lucide="file-check" class="w-4 h-4"></i>
+        Itemized invoice to be dispatched upon review
+      </span>
     </div>
   </div>
 
@@ -51,6 +54,6 @@
   </div>
 
   <p class="text-xs text-slate-500">
-    A formal written proposal and rate card will also be emailed to <strong>{{ inquiry.email }}</strong> within 2 hours.
+    A customized proposal and official invoice will be emailed to <strong>{{ inquiry.email }}</strong> within 2 hours.
   </p>
 </div>

@@ -49,7 +49,7 @@
             <th class="py-3 px-3">Event Name &amp; Type</th>
             <th class="py-3 px-3">Date &amp; Venue</th>
             <th class="py-3 px-3">Crew Size</th>
-            <th class="py-3 px-3">Budget Guide</th>
+            <th class="py-3 px-3">Guests &amp; Attire</th>
             <th class="py-3 px-3">Status</th>
             <th class="py-3 px-3 text-right">Action</th>
           </tr>
@@ -74,8 +74,9 @@
             <td class="py-3.5 px-3 font-semibold text-gold-highlight">
               {{ inq.crew_count }} Officers
             </td>
-            <td class="py-3.5 px-3 font-mono text-slate-200">
-              ₦{{ inq.estimated_cost_min|floatformat:0 }} &ndash; ₦{{ inq.estimated_cost_max|floatformat:0 }}
+            <td class="py-3.5 px-3">
+              <div class="text-slate-200">{{ inq.expected_guests }}</div>
+              <div class="text-slate-500 text-[10px] truncate max-w-[130px]">{{ inq.uniform_preference }}</div>
             </td>
             <td class="py-3.5 px-3">
               {% include 'dashboard/partials/inquiry_status_badge.html' with inquiry=inq %}

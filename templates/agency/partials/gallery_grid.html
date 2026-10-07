@@ -2,7 +2,7 @@
   {% for item in gallery_items %}
   <div class="glass-card rounded-2xl overflow-hidden group relative">
     <div class="h-64 overflow-hidden relative">
-      <img src="{{ item.image_url }}" alt="{{ item.title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+      <img src="{{ item.display_image }}" alt="{{ item.title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
       <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/20 to-transparent opacity-80 group-hover:opacity-95 transition-opacity"></div>
       
       <span class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-obsidian/90 text-gold-highlight border border-gold-primary/30">

@@ -12,7 +12,7 @@
     <span>Back to Portfolio List</span>
   </a>
 
-  <form method="POST" class="glass-panel rounded-3xl p-6 sm:p-10 border border-gold-primary/30 shadow-2xl space-y-6">
+  <form method="POST" enctype="multipart/form-data" class="glass-panel rounded-3xl p-6 sm:p-10 border border-gold-primary/30 shadow-2xl space-y-6">
     {% csrf_token %}
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -73,10 +73,32 @@
                class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary text-slate-100 text-sm">
       </div>
 
-      <div class="sm:col-span-2">
-        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">High-Res Image URL <span class="text-gold-primary">*</span></label>
-        <input type="url" name="image_url" value="{{ item.image_url|default:'' }}" required placeholder="https://images.unsplash.com/..."
-               class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary text-slate-100 text-sm font-mono">
+      <!-- IMAGE UPLOAD & OPTIMIZATION FIELD -->
+      <div class="sm:col-span-2 p-5 rounded-2xl bg-surface/80 border border-gold-primary/20 space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <label class="block text-xs font-bold text-gold-highlight uppercase tracking-wider">Event Cover Image</label>
+            <p class="text-[11px] text-slate-400">Upload a JPG, PNG or WebP file. It will be automatically optimized and compressed to WebP format.</p>
+          </div>
+          {% if item and item.display_image %}
+          <div class="w-16 h-12 rounded-lg overflow-hidden border border-gold-primary/30 flex-shrink-0">
+            <img src="{{ item.display_image }}" alt="Current image" class="w-full h-full object-cover">
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Upload Image File (Recommended)</label>
+            <input type="file" name="image" accept="image/*"
+                   class="w-full px-3 py-2 rounded-xl bg-midnight border border-slate-700 text-slate-300 text-xs file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-gold-primary file:text-black hover:file:bg-gold-highlight cursor-pointer">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Or Image URL (External)</label>
+            <input type="text" name="image_url" value="{{ item.image_url|default:'' }}" placeholder="https://..."
+                   class="w-full px-4 py-2.5 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary text-slate-100 text-xs font-mono">
+          </div>
+        </div>
       </div>
 
       <div class="sm:col-span-2">

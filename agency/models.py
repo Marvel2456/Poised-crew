@@ -65,7 +65,8 @@ class EventPortfolio(models.Model):
     services_provided = models.CharField(max_length=300, help_text="e.g. VIP Protocol • Digital Registration • Red Carpet • Hall Ushering")
     summary = models.TextField()
     highlight_result = models.CharField(max_length=255, help_text="Key accomplishment or metric")
-    image_url = models.CharField(max_length=500)
+    image = models.ImageField(upload_to='portfolio/', blank=True, null=True, help_text="Upload portfolio photo (auto-compressed to WebP)")
+    image_url = models.CharField(max_length=500, blank=True)
     is_featured = models.BooleanField(default=False)
     order = models.IntegerField(default=0)
 
@@ -74,6 +75,12 @@ class EventPortfolio(models.Model):
 
     def __str__(self):
         return f"{self.title} ({self.get_category_display()})"
+
+    @property
+    def display_image(self):
+        if self.image:
+            return self.image.url
+        return self.image_url or '/static/images/placeholder.jpg'
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -86,11 +93,18 @@ class UniformStyle(models.Model):
     tag = models.CharField(max_length=100, help_text="e.g. VIP Galas & Red Carpets")
     description = models.TextField()
     gender = models.CharField(max_length=50, default="Unisex / Male & Female")
-    image_url = models.CharField(max_length=500)
+    image = models.ImageField(upload_to='uniforms/', blank=True, null=True, help_text="Upload uniform photo (auto-compressed to WebP)")
+    image_url = models.CharField(max_length=500, blank=True)
     color_palette = models.CharField(max_length=150, default="Imperial Gold & Obsidian Black")
 
     def __str__(self):
         return self.name
+
+    @property
+    def display_image(self):
+        if self.image:
+            return self.image.url
+        return self.image_url or '/static/images/placeholder.jpg'
 
 
 class GalleryItem(models.Model):
@@ -106,7 +120,8 @@ class GalleryItem(models.Model):
 
     title = models.CharField(max_length=200)
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='events')
-    image_url = models.CharField(max_length=500)
+    image = models.ImageField(upload_to='gallery/', blank=True, null=True, help_text="Upload gallery image (auto-compressed to WebP)")
+    image_url = models.CharField(max_length=500, blank=True)
     caption = models.CharField(max_length=300, blank=True)
     order = models.IntegerField(default=0)
 
@@ -116,6 +131,12 @@ class GalleryItem(models.Model):
     def __str__(self):
         return f"{self.title} - {self.get_category_display()}"
 
+    @property
+    def display_image(self):
+        if self.image:
+            return self.image.url
+        return self.image_url or '/static/images/placeholder.jpg'
+
 
 class Testimonial(models.Model):
     client_name = models.CharField(max_length=150)
@@ -123,11 +144,18 @@ class Testimonial(models.Model):
     event_name = models.CharField(max_length=200)
     quote = models.TextField()
     rating = models.IntegerField(default=5)
+    avatar = models.ImageField(upload_to='testimonials/', blank=True, null=True, help_text="Upload client/planner photo (auto-compressed to WebP)")
     avatar_url = models.CharField(max_length=500, blank=True)
     is_featured = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.client_name} - {self.event_name}"
+
+    @property
+    def display_avatar(self):
+        if self.avatar:
+            return self.avatar.url
+        return self.avatar_url
 
 
 class QuoteInquiry(models.Model):
@@ -204,3 +232,90 @@ class CrewApplication(models.Model):
 
     def __str__(self):
         return f"Audition: {self.full_name} ({self.city})"
+
+
+class CoreValue(models.Model):
+    title = models.CharField(max_length=150)
+    description = models.TextField()
+    icon_name = models.CharField(max_length=50, default='crown', help_text="Lucide icon name e.g. crown, shield-check, lock, clock, sparkles, languages")
+    order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['order', 'id']
+
+    def __str__(self):
+        return self.title
+
+
+class SiteContent(models.Model):
+    # --- ABOUT US & BRAND ETHOS ---
+    about_hero_badge = models.CharField(max_length=150, default="Our Story & Ethos")
+    about_hero_title = models.CharField(max_length=255, default="Redefining African Event Hospitality With Unmatched Poise.")
+    about_hero_subtitle = models.TextField(default="Founded on the conviction that event staffing should be a disciplined craft of diplomatic excellence, executive etiquette, and genuine African warmth.")
+    about_story_title = models.CharField(max_length=255, default="The Poised Story: From Event Staffing to Protocol Authority")
+    about_story_paragraph_1 = models.TextField(default="The Poised Crew was established to bridge a critical gap in the luxury and corporate event industry: the need for impeccably trained, highly punctual, and intellectually sharp protocol officers who can effortlessly navigate both cultural traditions and strict diplomatic decorum.")
+    about_story_paragraph_2 = models.TextField(default="Whether handling the accreditation of 3,000 international delegates at an African energy summit or orchestrating royal family protocol at a multi-day wedding, our crew brings calmness, precision, and commanding elegance to every engagement.")
+    
+    # Mission & Vision
+    mission_title = models.CharField(max_length=100, default="Our Mission")
+    mission_statement = models.TextField(default="To provide flawless hospitality and protocol choreography that protects our clients' prestige and creates an unforgettable guest experience.")
+    vision_title = models.CharField(max_length=100, default="Our Vision")
+    vision_statement = models.TextField(default="To be Africa's benchmark institution for diplomatic protocol, luxury event ushering, and executive hospitality leadership.")
+    
+    # Academy / Showcase Highlight
+    academy_title = models.CharField(max_length=150, default="The Poised Academy")
+    academy_description = models.TextField(default="Over 400 hours of annual protocol & etiquette drill sessions")
+    academy_image = models.ImageField(upload_to='site/', blank=True, null=True, help_text="Upload academy/showcase photo (auto-compressed to WebP)")
+    academy_image_url = models.CharField(max_length=500, default="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1000&q=80", blank=True)
+
+    @property
+    def display_academy_image(self):
+        if self.academy_image:
+            return self.academy_image.url
+        return self.academy_image_url or '/static/images/placeholder.jpg'
+
+    # --- HOMEPAGE HERO ---
+    hero_badge = models.CharField(max_length=150, default="Excellence in Event Protocol & Luxury Hospitality")
+    hero_title = models.CharField(max_length=255, default="Where Regal Poise Meets Diplomatic Precision.")
+    hero_subtitle = models.TextField(default="Transforming conferences, high-society weddings, state banquets, and red-carpet galas into seamless, unforgettable experiences across Africa.")
+    hero_guarantee_1 = models.CharField(max_length=100, default="100% Punctuality Guarantee")
+    hero_guarantee_2 = models.CharField(max_length=100, default="Certified Etiquette & Protocol")
+    hero_guarantee_3 = models.CharField(max_length=100, default="Bespoke Attire Customization")
+
+    # --- LIVE MILESTONE STATS ---
+    stat_events_count = models.CharField(max_length=50, default="500+")
+    stat_events_label = models.CharField(max_length=100, default="Events Executed")
+    stat_officers_count = models.CharField(max_length=50, default="120+")
+    stat_officers_label = models.CharField(max_length=100, default="Vetted Protocol Officers")
+    stat_punctuality_rate = models.CharField(max_length=50, default="99.9%")
+    stat_punctuality_label = models.CharField(max_length=100, default="On-Time Deployment")
+    stat_summits_count = models.CharField(max_length=50, default="15+")
+    stat_summits_label = models.CharField(max_length=100, default="Diplomatic Summits")
+
+    # --- COMPANY & CONTACT INFO ---
+    company_name = models.CharField(max_length=150, default="The Poised Crew")
+    tagline = models.CharField(max_length=255, default="Luxury Event Ushering & VIP Protocol Agency")
+    phone_display = models.CharField(max_length=50, default="0705 185 1600")
+    whatsapp_number = models.CharField(max_length=50, default="2347051851600")
+    email_address = models.EmailField(default="thepoisedcrew@gmail.com")
+    office_address = models.CharField(max_length=255, default="Benin City, Edo State")
+    instagram_handle = models.CharField(max_length=100, default="@thepoisedcrew", blank=True)
+
+    # --- CALL TO ACTION (CTA) BANNER ---
+    cta_banner_title = models.CharField(max_length=255, default="Elevate Your Next High-Profile Event With The Poised Crew")
+    cta_banner_subtitle = models.TextField(default="From royal ceremonies and political summits to luxury society weddings, reserve Africa's most distinguished protocol and ushering professionals.")
+
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Website Content & Settings"
+        verbose_name_plural = "Website Content & Settings"
+
+    def __str__(self):
+        return "Website Content & Settings"
+
+    @classmethod
+    def get_solo(cls):
+        obj, created = cls.objects.get_or_create(id=1)
+        return obj
+

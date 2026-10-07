@@ -1,0 +1,10 @@
+asgiref==3.12.1
+Django==6.1.1
+django-htmx==1.29.0
+pillow==12.3.0
+sqlparse==0.6.0
+cloudinary==1.46.3
+django-cloudinary-storage==0.3.0
+python-dotenv==1.2.4
+django-storages==1.14.6
+boto3==1.43.108

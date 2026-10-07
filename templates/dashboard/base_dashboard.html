@@ -6,6 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Dashboard | The Poised Crew Executive CRM{% endblock %}</title>
 
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="{% static 'images/favicon.svg' %}">
+  <link rel="alternate icon" href="{% static 'images/crown.svg' %}">
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -95,6 +99,11 @@
         <a href="{% url 'agency:testimonials_admin_list' %}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all {% if 'testimonials' in request.path and 'dashboard' in request.path %}bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black shadow-md{% else %}text-slate-300 hover:text-white hover:bg-surface{% endif %}">
           <i data-lucide="message-square" class="w-4 h-4"></i>
           <span>Client Testimonials</span>
+        </a>
+
+        <a href="{% url 'agency:site_content_edit' %}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all {% if 'content' in request.path and 'dashboard' in request.path %}bg-gradient-to-r from-gold-highlight via-gold-primary to-gold-bronze text-black shadow-md{% else %}text-slate-300 hover:text-white hover:bg-surface{% endif %}">
+          <i data-lucide="layout-template" class="w-4 h-4"></i>
+          <span>Website Content &amp; Settings</span>
         </a>
       </nav>
 

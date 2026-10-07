@@ -35,7 +35,18 @@
         <tbody class="divide-y divide-slate-800/60">
           {% for t in testimonials %}
           <tr class="hover:bg-surface/50 transition-colors">
-            <td class="py-3.5 px-3 font-semibold text-slate-100">{{ t.client_name }}</td>
+            <td class="py-3.5 px-3">
+              <div class="flex items-center gap-2.5">
+                {% if t.display_avatar %}
+                <img src="{{ t.display_avatar }}" alt="{{ t.client_name }}" class="w-8 h-8 rounded-full object-cover border border-slate-700">
+                {% else %}
+                <div class="w-8 h-8 rounded-full bg-gold-primary/20 text-gold-highlight flex items-center justify-center font-bold text-xs">
+                  {{ t.client_name|slice:":1" }}
+                </div>
+                {% endif %}
+                <span class="font-semibold text-slate-100">{{ t.client_name }}</span>
+              </div>
+            </td>
             <td class="py-3.5 px-3 text-gold-warm">{{ t.client_role_company }}</td>
             <td class="py-3.5 px-3 text-slate-300">{{ t.event_name }}</td>
             <td class="py-3.5 px-3 font-bold text-gold-highlight">{{ t.rating }}/5</td>

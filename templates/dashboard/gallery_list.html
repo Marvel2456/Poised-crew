@@ -25,7 +25,7 @@
       <div class="glass-card rounded-2xl overflow-hidden group flex flex-col justify-between">
         <div>
           <div class="h-44 overflow-hidden relative">
-            <img src="{{ u.image_url }}" alt="{{ u.name }}" class="w-full h-full object-cover">
+            <img src="{{ u.display_image }}" alt="{{ u.name }}" class="w-full h-full object-cover">
             <span class="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-obsidian/85 text-[10px] font-semibold text-gold-highlight border border-gold-primary/30">
               {{ u.tag }}
             </span>
@@ -64,7 +64,7 @@
       {% for g in gallery_items %}
       <div class="glass-card rounded-2xl overflow-hidden group relative">
         <div class="h-44 overflow-hidden relative">
-          <img src="{{ g.image_url }}" alt="{{ g.title }}" class="w-full h-full object-cover">
+          <img src="{{ g.display_image }}" alt="{{ g.title }}" class="w-full h-full object-cover">
           <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent"></div>
           <span class="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[9px] font-semibold bg-obsidian/90 text-gold-highlight border border-gold-primary/30">
             {{ g.get_category_display }}

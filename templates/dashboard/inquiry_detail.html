@@ -144,12 +144,15 @@
           </div>
         </div>
 
-        <!-- Budget Estimate -->
-        <div class="pt-4 border-t border-slate-800">
-          <span class="text-[11px] text-slate-400">System Estimated Budget Guide:</span>
-          <div class="font-heading font-bold text-lg text-gold-gradient">
-            ₦{{ inquiry.estimated_cost_min|floatformat:0 }} &ndash; ₦{{ inquiry.estimated_cost_max|floatformat:0 }}
+        <!-- Invoice Dispatch Note -->
+        <div class="pt-4 border-t border-slate-800 space-y-1.5">
+          <div class="flex items-center gap-1.5 text-gold-highlight text-xs font-semibold">
+            <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+            <span>Official Invoice &amp; Proposal</span>
           </div>
+          <p class="text-[11px] text-slate-400 leading-relaxed">
+            Contact the client directly via WhatsApp or Email below to confirm date availability and send their tailored invoice.
+          </p>
         </div>
 
         <!-- WhatsApp Fast Reply Action -->
@@ -157,7 +160,7 @@
           <a href="{{ whatsapp_reply_url }}" target="_blank"
              class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg transition-all">
             <i data-lucide="message-circle" class="w-4 h-4"></i>
-            <span>Reply via WhatsApp VIP</span>
+            <span>Contact Client &amp; Send Invoice (WhatsApp)</span>
           </a>
         </div>
       </div>

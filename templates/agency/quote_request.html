@@ -9,14 +9,14 @@
 <section class="py-16 bg-leather-texture border-b border-gold-primary/20 text-center relative overflow-hidden">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-midnight border border-gold-primary/30 text-gold-highlight text-xs font-semibold uppercase tracking-widest mb-4">
-      <i data-lucide="calculator" class="w-3.5 h-3.5 text-gold-primary"></i>
+      <i data-lucide="calendar-check" class="w-3.5 h-3.5 text-gold-primary"></i>
       Event Staffing &amp; Protocol Booking
     </div>
     <h1 class="font-heading font-extrabold text-3xl sm:text-5xl text-slate-100">
       Request a Structured <span class="text-gold-gradient">Staffing Proposal</span>
     </h1>
     <p class="text-slate-300 text-sm sm:text-base mt-4 max-w-2xl mx-auto font-light leading-relaxed">
-      Provide your event specifications below. Receive a real-time estimated budget guide and a bespoke proposal tailored to your venue and guest count.
+      Provide your event specifications below. Our protocol team will review your requirements and send a customized proposal and formal invoice to your email and WhatsApp.
     </p>
   </div>
 </section>
@@ -102,10 +102,6 @@
               Event Type <span class="text-gold-primary">*</span>
             </label>
             <select name="event_type" id="event_type"
-                    hx-get="{% url 'agency:estimate_api' %}"
-                    hx-target="#live-estimate-badge-container"
-                    hx-include="[name='crew_count'], [name='duration_hours']"
-                    hx-trigger="change"
                     class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary focus:ring-1 focus:ring-gold-primary text-slate-100 text-sm transition-colors">
               <option value="corporate">Corporate Conference / AGM</option>
               <option value="wedding">Luxury Wedding &amp; Reception</option>
@@ -120,23 +116,18 @@
             <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
               Event Date <span class="text-gold-primary">*</span>
             </label>
-            <input type="date" name="event_date" required
-                   class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary focus:ring-1 focus:ring-gold-primary text-slate-100 text-sm transition-colors">
+            <input type="date" name="event_date" id="event_date" required
+                   onclick="this.showPicker && this.showPicker()"
+                   class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary focus:ring-1 focus:ring-gold-primary text-slate-100 text-sm transition-colors cursor-pointer">
           </div>
 
           <div>
             <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
               Location / City <span class="text-gold-primary">*</span>
             </label>
-            <select name="event_location"
-                    class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary focus:ring-1 focus:ring-gold-primary text-slate-100 text-sm transition-colors">
-              <option value="Lagos - Victoria Island / Ikoyi / Lekki">Lagos (Island / Lekki / Ikoyi)</option>
-              <option value="Lagos - Ikeja / Mainland">Lagos (Mainland / Ikeja)</option>
-              <option value="Abuja FCT">Abuja FCT</option>
-              <option value="Port Harcourt, Rivers">Port Harcourt, Rivers State</option>
-              <option value="Other Nigerian State">Other Nigerian State</option>
-              <option value="International / West Africa">International / West Africa</option>
-            </select>
+            <input type="text" name="event_location" required
+                   placeholder="e.g. Benin City, Edo State"
+                   class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary focus:ring-1 focus:ring-gold-primary text-slate-100 text-sm placeholder-slate-500 transition-colors">
           </div>
 
           <div>
@@ -166,10 +157,6 @@
               Event Duration (Hours)
             </label>
             <select name="duration_hours" id="duration_hours"
-                    hx-get="{% url 'agency:estimate_api' %}"
-                    hx-target="#live-estimate-badge-container"
-                    hx-include="[name='crew_count'], [name='event_type']"
-                    hx-trigger="change"
                     class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary focus:ring-1 focus:ring-gold-primary text-slate-100 text-sm transition-colors">
               <option value="4">4 Hours (Half Day)</option>
               <option value="6">6 Hours</option>
@@ -264,10 +251,6 @@
               Number of Ushers / Officers
             </label>
             <input type="number" name="crew_count" id="crew_count" value="12" min="4" max="100"
-                   hx-get="{% url 'agency:estimate_api' %}"
-                   hx-target="#live-estimate-badge-container"
-                   hx-include="[name='duration_hours'], [name='event_type']"
-                   hx-trigger="change, keyup delay:400ms"
                    class="w-full px-4 py-3 rounded-xl bg-midnight border border-slate-700 focus:border-gold-primary focus:ring-1 focus:ring-gold-primary text-slate-100 text-sm font-bold text-gold-highlight">
             <span class="text-[11px] text-slate-400 mt-1 block">Recommended: 1 usher per 25-30 guests</span>
           </div>
@@ -309,31 +292,21 @@
         </div>
       </div>
 
-      <!-- LIVE ESTIMATE BADGE CONTAINER (HTMX Dynamic) -->
-      <div id="live-estimate-badge-container">
-        <div id="live-estimate-badge" class="p-4 rounded-2xl bg-gradient-to-r from-midnight via-surface to-midnight border border-gold-primary/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-inner">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-gold-primary/20 border border-gold-primary/40 flex items-center justify-center text-gold-highlight flex-shrink-0">
-              <i data-lucide="calculator" class="w-5 h-5"></i>
-            </div>
-            <div>
-              <div class="text-[11px] text-slate-400 uppercase tracking-wider">Estimated Budget Guide (NGN)</div>
-              <div class="font-heading font-bold text-lg sm:text-xl text-gold-gradient">
-                ₦432,000 &ndash; ₦576,000
-              </div>
-            </div>
-          </div>
-          <div class="text-[11px] text-slate-400 text-right">
-            <span>Based on <strong>12 Officers</strong> &bull; <strong>8 Hours</strong></span>
-            <div class="text-[10px] text-gold-warm italic">Includes deployment lead &amp; briefing</div>
-          </div>
+      <!-- INVOICE & PROPOSAL NOTICE -->
+      <div class="p-4 rounded-2xl bg-midnight border border-gold-primary/30 flex items-start gap-3.5 shadow-inner">
+        <div class="w-9 h-9 rounded-xl bg-gold-primary/20 border border-gold-primary/40 flex items-center justify-center text-gold-highlight flex-shrink-0 mt-0.5">
+          <i data-lucide="file-text" class="w-4 h-4"></i>
+        </div>
+        <div class="text-xs text-slate-300 leading-relaxed">
+          <span class="font-semibold text-gold-highlight uppercase tracking-wider block mb-0.5">Official Invoice &amp; Staffing Proposal</span>
+          Upon review of your event requirements, our Chief of Protocol will contact you directly and issue a formal, itemized invoice to your email and WhatsApp within 2 hours.
         </div>
       </div>
 
       <!-- Submit Section -->
       <div class="pt-6 border-t border-gold-primary/20 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div class="text-xs text-slate-400 text-center sm:text-left">
-          <p>🔒 Strictly confidential &bull; No obligation quote &bull; 2-hour response guarantee</p>
+          <p>🔒 Strictly confidential &bull; Formal invoice upon review &bull; 2-hour response</p>
         </div>
 
         <button type="submit"
@@ -341,7 +314,7 @@
           <span id="submit-spinner" class="htmx-indicator">
             <div class="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
           </span>
-          <span>Submit Request &amp; Get Proposal</span>
+          <span>Submit Request &amp; Receive Invoice</span>
           <i data-lucide="arrow-right" class="w-4 h-4"></i>
         </button>
       </div>

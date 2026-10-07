@@ -20,18 +20,18 @@
       </div>
       <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-midnight border border-gold-primary/30 text-gold-highlight text-xs font-semibold uppercase tracking-widest shadow-inner">
         <i data-lucide="crown" class="w-3.5 h-3.5 text-gold-primary"></i>
-        <span>Excellence in Event Protocol &amp; Luxury Hospitality</span>
+        <span>{{ site_content.hero_badge|default:"Excellence in Event Protocol & Luxury Hospitality" }}</span>
       </div>
     </div>
 
     <!-- Main Headline -->
     <h1 class="font-heading font-extrabold text-3xl sm:text-5xl lg:text-6xl tracking-tight text-slate-100 max-w-4xl mx-auto leading-tight sm:leading-tight">
-      Where Regal Poise Meets <span class="text-gold-gradient block sm:inline">Diplomatic Precision.</span>
+      {{ site_content.hero_title|default:"Where Regal Poise Meets Diplomatic Precision." }}
     </h1>
 
     <!-- Subtitle -->
     <p class="mt-6 text-base sm:text-xl text-slate-300 max-w-2xl mx-auto font-light leading-relaxed">
-      Transforming conferences, high-society weddings, state banquets, and red-carpet galas into seamless, unforgettable experiences across Africa.
+      {{ site_content.hero_subtitle }}
     </p>
 
     <!-- CTAs -->
@@ -52,15 +52,15 @@
     <div class="mt-12 flex flex-wrap items-center justify-center gap-6 text-xs text-slate-400">
       <div class="flex items-center gap-2">
         <i data-lucide="check-circle" class="w-4 h-4 text-gold-primary"></i>
-        <span>100% Punctuality Guarantee</span>
+        <span>{{ site_content.hero_guarantee_1|default:"100% Punctuality Guarantee" }}</span>
       </div>
       <div class="flex items-center gap-2">
         <i data-lucide="check-circle" class="w-4 h-4 text-gold-primary"></i>
-        <span>Certified Etiquette &amp; Protocol</span>
+        <span>{{ site_content.hero_guarantee_2|default:"Certified Etiquette & Protocol" }}</span>
       </div>
       <div class="flex items-center gap-2">
         <i data-lucide="check-circle" class="w-4 h-4 text-gold-primary"></i>
-        <span>Bespoke Attire Customization</span>
+        <span>{{ site_content.hero_guarantee_3|default:"Bespoke Attire Customization" }}</span>
       </div>
     </div>
 
@@ -74,22 +74,22 @@
       
       <div class="pt-2 sm:pt-0">
         <div class="font-heading font-extrabold text-3xl sm:text-4xl text-gold-gradient">{{ stats.events_count }}</div>
-        <div class="text-xs sm:text-sm text-slate-400 mt-1 uppercase tracking-wider">Events Executed</div>
+        <div class="text-xs sm:text-sm text-slate-400 mt-1 uppercase tracking-wider">{{ stats.events_label|default:"Events Executed" }}</div>
       </div>
 
       <div class="pt-2 sm:pt-0">
         <div class="font-heading font-extrabold text-3xl sm:text-4xl text-gold-gradient">{{ stats.officers_count }}</div>
-        <div class="text-xs sm:text-sm text-slate-400 mt-1 uppercase tracking-wider">Vetted Protocol Officers</div>
+        <div class="text-xs sm:text-sm text-slate-400 mt-1 uppercase tracking-wider">{{ stats.officers_label|default:"Vetted Protocol Officers" }}</div>
       </div>
 
       <div class="pt-4 sm:pt-0">
         <div class="font-heading font-extrabold text-3xl sm:text-4xl text-gold-gradient">{{ stats.punctuality_rate }}</div>
-        <div class="text-xs sm:text-sm text-slate-400 mt-1 uppercase tracking-wider">On-Time Deployment</div>
+        <div class="text-xs sm:text-sm text-slate-400 mt-1 uppercase tracking-wider">{{ stats.punctuality_label|default:"On-Time Deployment" }}</div>
       </div>
 
       <div class="pt-4 sm:pt-0">
         <div class="font-heading font-extrabold text-3xl sm:text-4xl text-gold-gradient">{{ stats.diplomatic_summits }}</div>
-        <div class="text-xs sm:text-sm text-slate-400 mt-1 uppercase tracking-wider">Diplomatic Summits</div>
+        <div class="text-xs sm:text-sm text-slate-400 mt-1 uppercase tracking-wider">{{ stats.diplomatic_label|default:"Diplomatic Summits" }}</div>
       </div>
 
     </div>
@@ -196,7 +196,7 @@
       {% for item in featured_portfolio %}
       <div class="glass-card rounded-2xl overflow-hidden group flex flex-col justify-between">
         <div class="relative h-64 overflow-hidden">
-          <img src="{{ item.image_url }}" alt="{{ item.title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <img src="{{ item.display_image }}" alt="{{ item.title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
           <div class="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/40 to-transparent"></div>
           
           <div class="absolute top-4 left-4 flex gap-2">
@@ -353,7 +353,7 @@
       {% for u in uniform_styles %}
       <div class="glass-card rounded-2xl overflow-hidden group">
         <div class="h-60 overflow-hidden relative">
-          <img src="{{ u.image_url }}" alt="{{ u.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <img src="{{ u.display_image }}" alt="{{ u.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
           <div class="absolute inset-0 bg-gradient-to-t from-midnight via-transparent to-transparent"></div>
           <span class="absolute bottom-3 left-3 px-2.5 py-1 rounded bg-obsidian/80 backdrop-blur-md text-[11px] font-semibold text-gold-highlight border border-gold-primary/30">
             {{ u.tag }}
@@ -404,9 +404,13 @@
       </div>
 
       <div class="mt-6 pt-5 border-t border-slate-800/80 flex items-center gap-3">
+        {% if t.display_avatar %}
+        <img src="{{ t.display_avatar }}" alt="{{ t.client_name }}" class="w-10 h-10 rounded-full object-cover border border-gold-primary/40">
+        {% else %}
         <div class="w-10 h-10 rounded-full bg-gold-primary/20 border border-gold-primary/40 flex items-center justify-center font-bold text-gold-highlight text-sm">
           {{ t.client_name|slice:":1" }}
         </div>
+        {% endif %}
         <div>
           <h4 class="font-semibold text-sm text-slate-100">{{ t.client_name }}</h4>
           <p class="text-xs text-gold-warm">{{ t.client_role_company }}</p>
@@ -425,10 +429,10 @@
       <img src="{% static 'images/crown.svg' %}" alt="Crown" class="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(212,175,55,0.4)]">
     </div>
     <h2 class="font-heading text-3xl sm:text-5xl font-extrabold text-slate-100">
-      Ready to Bring <span class="text-gold-gradient">The Poised Crew</span> to Your Next Event?
+      {{ site_content.cta_banner_title|default:"Ready to Bring The Poised Crew to Your Next Event?" }}
     </h2>
     <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto mt-4 leading-relaxed font-light">
-      Receive a detailed proposal and transparent staffing breakdown within 2 hours.
+      {{ site_content.cta_banner_subtitle|default:"Receive a detailed proposal and transparent staffing breakdown within 2 hours." }}
     </p>
 
     <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
@@ -437,7 +441,7 @@
         <i data-lucide="calculator" class="w-5 h-5"></i>
         <span>Request a Structured Quote</span>
       </a>
-      <a href="https://wa.me/2348000000000" target="_blank"
+      <a href="https://wa.me/{{ site_content.whatsapp_number|default:'2347051851600' }}" target="_blank"
          class="w-full sm:w-auto px-7 py-4 rounded-full bg-emerald-950/60 border border-emerald-500/40 text-emerald-400 font-semibold text-base hover:bg-emerald-900/60 transition-all flex items-center justify-center gap-2">
         <i data-lucide="message-circle" class="w-5 h-5"></i>
         <span>WhatsApp Concierge</span>

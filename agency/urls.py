@@ -58,4 +58,10 @@ urlpatterns = [
     path('dashboard/testimonials/create/', dashboard_views.testimonial_form_view, name='testimonial_create'),
     path('dashboard/testimonials/<int:pk>/edit/', dashboard_views.testimonial_form_view, name='testimonial_edit'),
     path('dashboard/testimonials/<int:pk>/delete/', dashboard_views.testimonial_delete_view, name='testimonial_delete'),
+
+    # Website Content & Brand Settings CMS
+    path('dashboard/content/', dashboard_views.site_content_admin_view, name='site_content_edit'),
+    path('dashboard/content/values/create/', dashboard_views.core_value_form_view, name='core_value_create'),
+    path('dashboard/content/values/<int:pk>/edit/', dashboard_views.core_value_form_view, name='core_value_edit'),
+    path('dashboard/content/values/<int:pk>/delete/', dashboard_views.core_value_delete_view, name='core_value_delete'),
 ]
